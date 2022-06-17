@@ -1,0 +1,69 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net6.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <UseWPF>true</UseWPF>
+    <UseWindowsForms>True</UseWindowsForms>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Compile Remove="Новая папка\**" />
+    <EmbeddedResource Remove="Новая папка\**" />
+    <None Remove="Новая папка\**" />
+    <Page Remove="Новая папка\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="NewFile1.txt" />
+    <None Remove="QuartersTechonologiesResourse.json" />
+    <None Remove="Resourses\alloy.png" />
+    <None Remove="Resourses\blueprint.png" />
+    <None Remove="Resourses\chemistry.png" />
+    <None Remove="Resourses\component.png" />
+    <None Remove="Resourses\composite.png" />
+    <None Remove="Resourses\encryption.png" />
+    <None Remove="Resourses\fuel.png" />
+    <None Remove="Resourses\medicine.png" />
+    <None Remove="Resourses\microchip.png" />
+    <None Remove="Resourses\secretdev.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <COMReference Include="AutoItX3Lib">
+      <VersionMinor>0</VersionMinor>
+      <VersionMajor>1</VersionMajor>
+      <Guid>f8937e53-d444-4e71-9275-35b64210cc3b</Guid>
+      <Lcid>0</Lcid>
+      <WrapperTool>tlbimp</WrapperTool>
+      <Isolated>false</Isolated>
+      <EmbedInteropTypes>true</EmbedInteropTypes>
+    </COMReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <PackageReference Include="DevExpressMvvm" Version="21.1.5" />
+    <PackageReference Include="MaterialDesignThemes" Version="4.5.0" />
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
+    <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
+    <PackageReference Include="Scrutor" Version="4.1.0" />
+    <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
+    <PackageReference Include="Tesseract" Version="4.1.1" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Resourses\alloy.png" />
+    <Resource Include="Resourses\blueprint.png" />
+    <Resource Include="Resourses\chemistry.png" />
+    <Resource Include="Resourses\component.png" />
+    <Resource Include="Resourses\composite.png" />
+    <Resource Include="Resourses\encryption.png" />
+    <Resource Include="Resourses\fuel.png" />
+    <Resource Include="Resourses\medicine.png" />
+    <Resource Include="Resourses\microchip.png" />
+    <Resource Include="Resourses\secretdev.png" />
+  </ItemGroup>
+
+</Project>
