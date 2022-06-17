@@ -11,6 +11,7 @@ namespace Caliber
 {
     public class ActualPriority
     {
+        //TODO выкинуть поле Priority, пусть все всё из словаря берут
         public List<Resourse> Priority { get; }
         int _resourseLimit { get; set; } = Convert.ToInt32(new ResoursesLimitViewModel().ResoursesLimit);
         public ActualPriority(PriorityMode mode)
@@ -37,7 +38,7 @@ namespace Caliber
         }
 
         #endregion HandPriority
-
+        //TODO Переписать рефлексию, т.к. появились атрибуты JSON
         #region MaxPriority
         private async Task<List<Resourse>> MaxPriority()
         {
@@ -71,7 +72,6 @@ namespace Caliber
             return null;
         }
         #endregion MaxPriority
-
         #region MedianPriority
         private List<Resourse> MedianPriority()
         {
@@ -80,7 +80,7 @@ namespace Caliber
             return priority;
         }
         #endregion MedianPriority
-
+        //TODO Переписать рефлексию, т.к. появились атрибуты JSON
         #region TehnologiesPriority 
         private List<Resourse> TehnologiesPriority()
         {
@@ -115,6 +115,7 @@ namespace Caliber
         }
 
         #endregion TehnologiesPriority
+        //TODO Переписать рефлексию, т.к. появились атрибуты JSON
         private List<Resourse> OutHavenResourses(List<Resourse> priority)
         {
             foreach (var item in priority)

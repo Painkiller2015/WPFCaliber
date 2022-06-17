@@ -12,6 +12,7 @@ using Tesseract;
 using System.Linq;
 using ImageFormat = System.Drawing.Imaging.ImageFormat;
 using WPFCaliber.Value;
+using Caliber.ViewModels;
 
 namespace Caliber
 {
@@ -21,6 +22,14 @@ namespace Caliber
         private static GlobalHotKeyManager _hotKeyManager = new();
         private static byte[] _imageCaliber;
         static readonly int _maxCountResourses = Resourse.DictNumResources.Count;
+
+
+
+        PriorityMode GetPriorityMode(EventHandler<PriorityMode> e) => e;
+
+
+
+        //TODO запускать StartProcessOpenCase по кнопке пуска
         public static void StartProcessOpenCase(ResourseValue resourseValue)
         {
             OpenCase();
@@ -32,13 +41,14 @@ namespace Caliber
             string textOnScreen = GetTextOnRectangleResourse(rectangleResourses);
 
             ResoursesCollectionEng[] caseContain = GetContainResourses(textOnScreen);
-            //List<Resourse> priority = GetPriority(resourseValue);
 
-            IEnumerable<Resourse>? priority = Resourse.DictNumResources.OrderBy(res => res.Value).Select(el => el.Value);
+            //TODO сделать void приоритет, приоритет должен в словарь ресурсов записываться
+            //new ActualPriority().Priority;
 
-            GetResourse(caseContain, priority, resourseValue);
+            GetResourse(caseContain);
 
             OpenCase();
+            //TODO переделать на асинк
             Thread.Sleep(500);
         }
         private static void OpenCase()
@@ -82,13 +92,12 @@ namespace Caliber
         }
         private static ResoursesCollectionEng[] GetContainResourses(string inputString)
         {
-            if (string.IsNullOrWhiteSpace(inputString))
-            {
-                return default;
-            }
+            if (string.IsNullOrWhiteSpace(inputString)) return default;
+            
 
             ResoursesCollectionEng[] caseContain = new ResoursesCollectionEng[5];
             int[] arrayResoursePosition = new int[5];
+            //TODO: брать язык с формы
             string sysLang = SysConfig.GetSystemLanguage();
 
             for (int resCell = 0, numResourses = 0; numResourses < _maxCountResourses; numResourses++)
@@ -115,16 +124,18 @@ namespace Caliber
             Array.Sort(arrayResoursePosition, caseContain);
             return caseContain;
         }
-        private static void GetResourse(ResoursesCollectionEng[] caseContain, IEnumerable<Resourse> priority, WPFCaliber.Value.ResourseValue resourseValue)
+        private static void GetResourse(ResoursesCollectionEng[] caseContain)
         {
-            for (int i = 0; i < priority.Count(); i++)
+            //TODO вынести сортировку по приоритету в сам словарь при пополнении
+            Resourse.DictNumResources.OrderBy(el => el.Value.Priority);
+
+            foreach (var resourse in Resourse.DictNumResources)
             {
                 for (int j = 0; j < caseContain.Length; j++)
                 {
-                    if (priority.ElementAt(i).Name == caseContain[j])
+                    if (resourse.Value.Name == caseContain[j])
                     {
                         GetCellById(j);
-
                         goto LoopEnd;
                     }
                 }
@@ -134,26 +145,16 @@ namespace Caliber
         private static void GetCellById(int cell)
         {
             int y = (int)(SysConfig.GetHeightScreen() / 1.6);
-            int x = 0;
 
-            switch (cell)
+            int x = cell switch
             {
-                case 0:
-                    x = (int)(SysConfig.GetWidthScreen() / 5);
-                    break;
-                case 1:
-                    x = (int)(SysConfig.GetWidthScreen() / 2.8);
-                    break;
-                case 2:
-                    x = (int)(SysConfig.GetWidthScreen() / 1.93);
-                    break;
-                case 3:
-                    x = (int)(SysConfig.GetWidthScreen() / 1.5);
-                    break;
-                case 4:
-                    x = (int)(SysConfig.GetWidthScreen() / 1.2);
-                    break;
-            }
+                0 => x = (int)(SysConfig.GetWidthScreen() / 5),
+                1 => x = (int)(SysConfig.GetWidthScreen() / 2.8),
+                2 => x = (int)(SysConfig.GetWidthScreen() / 1.93),
+                3 => x = (int)(SysConfig.GetWidthScreen() / 1.5),
+                4 => x = (int)(SysConfig.GetWidthScreen() / 1.2),
+                _ => throw new Exception("не верный номер ячейки"),
+            };
 
             AutoItX3 takeCell = new();
 
