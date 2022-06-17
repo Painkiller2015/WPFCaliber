@@ -69,8 +69,6 @@
                          Content="Максимум" />
         </StackPanel>
 
-
-
         <ComboBox Grid.Column="1" Grid.Row="0"   
                   Style="{StaticResource MaterialDesignFilledComboBox}"
                   FontSize="20"
@@ -86,16 +84,16 @@
                  Text="{Binding ResoursesLimit}"
                  />
 
-        <ListBox Grid.Column="1" Grid.Row="1"
+        <ListBox Grid.Column="1" Grid.Row="1" 
                  DataContext="{Binding Source={StaticResource VMLoader}, Path=StartResoursesViewModel}"
                  ItemsSource="{Binding Resourses}"
                  d:ItemsSource="{d:SampleData ItemCount=10}"                
                  >
             <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <md:Chip Content="{Binding Number}">
+                <DataTemplate >
+                    <md:Chip Content="{Binding Number}" Margin="0 -5">
                         <md:Chip.Icon>
-                            <Image Source="{Binding ResourseImg}" />
+                            <Image Source="{Binding ResourseImg}"  />
                         </md:Chip.Icon>
                     </md:Chip>
                 </DataTemplate>

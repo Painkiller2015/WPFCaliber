@@ -23,12 +23,6 @@ namespace Caliber
         private static byte[] _imageCaliber;
         static readonly int _maxCountResourses = Resourse.DictNumResources.Count;
 
-
-
-        PriorityMode GetPriorityMode(EventHandler<PriorityMode> e) => e;
-
-
-
         //TODO запускать StartProcessOpenCase по кнопке пуска
         public static void StartProcessOpenCase(ResourseValue resourseValue)
         {

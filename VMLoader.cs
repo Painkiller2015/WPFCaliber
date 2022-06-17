@@ -39,7 +39,7 @@ namespace Caliber
         public ViewModels.LanguageSetterViewModel? LanguageSetterViewModel { get => Resolve<ViewModels.LanguageSetterViewModel>(); }
         public ViewModels.MainViewModel? MainViewModel { get => Resolve<ViewModels.MainViewModel>(); }
         public ViewModels.ModeDescriptionViewModel? ModeDescriptionViewModel { get => Resolve<ViewModels.ModeDescriptionViewModel>(); }
-        public ViewModels.ModeViewModels? ModeViewModels { get => Resolve<ViewModels.ModeViewModels>(); }
+        public ViewModels.ModeViewModel? ModeViewModels { get => Resolve<ViewModels.ModeViewModel>(); }
         public ViewModels.NeededResoursesViewModel? NeededResoursesViewModel { get => Resolve<ViewModels.NeededResoursesViewModel>(); }
         public ViewModels.ResoursesLimitViewModel? ResoursesLimitViewModel { get => Resolve<ViewModels.ResoursesLimitViewModel>(); }
         public ViewModels.StartResoursesViewModel? StartResoursesViewModel { get => Resolve<ViewModels.StartResoursesViewModel>(); }

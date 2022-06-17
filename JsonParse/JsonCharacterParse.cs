@@ -166,7 +166,7 @@ namespace Caliber
 
     public class Cost
     {
-        public WPFCaliber.Value.ResourseValue values { get; set; }
+        public ResourseValue values { get; set; }
     }
 
 

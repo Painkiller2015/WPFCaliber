@@ -25,10 +25,8 @@ namespace Caliber
         private GlobalHotKeyManager hotkeyManager;
         public MainWindow()
         {
-            Resourse resourse = new();          //заполнение словаря
             InitializeComponent();
         }
-
         private void Button_Click(object sender, RoutedEventArgs e)
         {
             hotkeyManager = new GlobalHotKeyManager();

@@ -16,7 +16,7 @@ namespace Caliber.ViewModels
         {
             ActuallyPriority = new List<Resourse>();
 
-            ModeViewModels.ModeChanged += (object? _, PriorityMode s) =>
+            ModeViewModel.ModeChanged += (object? _, PriorityMode s) =>
             {
                 GetPriority(s);
             };

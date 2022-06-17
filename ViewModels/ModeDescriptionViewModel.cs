@@ -13,7 +13,7 @@ namespace Caliber.ViewModels
     {
         public ModeDescriptionViewModel()
         {
-            ModeViewModels.ModeChanged += (object _, PriorityMode s) =>
+            ModeViewModel.ModeChanged += (object _, PriorityMode s) =>
             {
                 UpdateDescription(s);
                 RaisePropertyChanged(nameof(ModeDescription));

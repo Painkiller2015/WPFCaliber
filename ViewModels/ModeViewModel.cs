@@ -9,7 +9,7 @@ using WPFCaliber;
 
 namespace Caliber.ViewModels
 {
-    internal class ModeViewModels : BindableBase, ISingleton
+    internal class ModeViewModel : BindableBase, ISingleton
     {
         public static event EventHandler<PriorityMode> ModeChanged;
 

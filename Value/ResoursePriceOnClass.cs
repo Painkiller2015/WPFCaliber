@@ -19,6 +19,7 @@ namespace WPFCaliber.Value
 
         private const int _MaxLvl = 15;
         private const int _RecruitCount = 4;
+        private const int _ClassesCount = 4;
 
         static ResoursePriceOnClass()
         {
@@ -26,54 +27,62 @@ namespace WPFCaliber.Value
             JsonCharacterParse CharactersList = JsonConvert.DeserializeObject<JsonCharacterParse>(json);
 
             int recruitCount = 0;
+            int classesCount = 0;
 
             foreach (var character in CharactersList.CharactersList)
             {
+                if (recruitCount < _RecruitCount)
+                {
+                    recruitCount++;
+                    continue;
+                }
+                if (classesCount < _ClassesCount)
+                {
+                    classesCount++;
+                }
+                else { break; }
+
                 foreach (var abilities in character.abilities)
                 {
                     foreach (var upgrades in abilities.upgrades)
                     {
-                        recruitCount++;
-                        if (recruitCount > _RecruitCount && (Assault.Count != 15 || Sniper.Count != 15 || Medic.Count != 15 || Gunner.Count != 15))
+                        switch (character.role)
                         {
-                            switch (character.role)
-                            {
-                                case Classes.Assault:
-                                    Assault.Add(upgrades.cost.values);
-                                    break;
-                                case Classes.Gunner:
-                                    Gunner.Add(upgrades.cost.values);
-                                    break;
-                                case Classes.Medic:
-                                    Medic.Add(upgrades.cost.values);
-                                    break;
-                                case Classes.Sniper:
-                                    Sniper.Add(upgrades.cost.values);
-                                    break;
-                            }
+                            case Classes.Assault:
+                                Assault.Add(upgrades.cost.values);
+                                break;
+                            case Classes.Gunner:
+                                Gunner.Add(upgrades.cost.values);
+                                break;
+                            case Classes.Medic:
+                                Medic.Add(upgrades.cost.values);
+                                break;
+                            case Classes.Sniper:
+                                Sniper.Add(upgrades.cost.values);
+                                break;
                         }
                     }
                 }
             }
         }
-        public ResourseValue Sum(int StartInd, Classes Class)
+        public ResourseValue Sum(int startInd, Classes characterClass)
         {
-            ResourseValue RV = new();
-            string className = Enum.GetName(Class);
-            FieldInfo[]? typeResourseValueFields = typeof(ResourseValue).GetFields();
-            FieldInfo? thisTypeFieldOnName = typeof(ResoursePriceOnClass).GetField(className);
+            ResourseValue rasourseValue = new();
 
-            for (int NumLvl = StartInd; NumLvl < _MaxLvl; NumLvl++)                                 
+            string characterClassName = Enum.GetName(characterClass);
+
+            FieldInfo[]? resourseValueFields = typeof(ResourseValue).GetFields();
+            FieldInfo? classFieldOnName = typeof(ResoursePriceOnClass).GetField(characterClassName);
+
+            for (int numLvl = startInd + 1; numLvl < _MaxLvl; numLvl++)      //TODO +1 мб не надо                           
             {
-                int fieldResourseNum = 0;
-                foreach (var fieldResourse in typeResourseValueFields)
+                foreach (var fieldResourse in resourseValueFields)
                 {
-                    var Resoursefield = (List<ResourseValue>)thisTypeFieldOnName.GetValue(this);
-                    fieldResourse.SetValue(RV, (int)fieldResourse.GetValue(RV) + Resoursefield[NumLvl].GetValueOnName(fieldResourse.ToString()));
-                    fieldResourseNum++;
+                    var resourseField = (List<ResourseValue>)classFieldOnName.GetValue(this);
+                    fieldResourse.SetValue(rasourseValue, (int)fieldResourse.GetValue(rasourseValue) + resourseField[numLvl].GetValueOnName(fieldResourse.ToString()));
                 }
             }
-            return RV;
+            return rasourseValue;
         }
     }
 }

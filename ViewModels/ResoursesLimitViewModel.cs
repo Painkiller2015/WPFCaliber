@@ -11,12 +11,5 @@ namespace Caliber.ViewModels
     public class ResoursesLimitViewModel : BindableBase, ISingleton
     {
         public string ResoursesLimit { get; set; }
-        public ICommand ChangeModeCommand
-        {
-            get => new DelegateCommand<string>((string newMode) =>
-            {
-                MainViewModel? mainView = VMLoader.Resolve<MainViewModel>();
-            }); 
-        }
     }
 }

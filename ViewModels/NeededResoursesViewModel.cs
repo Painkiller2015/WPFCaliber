@@ -14,18 +14,17 @@ namespace Caliber.ViewModels
         public List<int> NeededResourses { get; set; } = new();
         public NeededResoursesViewModel()
         {
-            ResoursesLimitViewModel resourses = new();
-            int neededResourses = default;
-
-            foreach (var item in Resourse.DictNumResources)
+            ModeViewModel.ModeChanged += (object o, PriorityMode mode) =>
             {
-                neededResourses = Convert.ToInt32(resourses.ResoursesLimit) - item.Value.Number;
-                if (neededResourses < 0)
-                {
-                    neededResourses = 0;
-                }
-                NeededResourses.Add(neededResourses); 
-            }
+                       //TODO закидывать сюда необходимые реусурсы из отдельного класса
+
+                       /*NeededResourses.Add( 
+                           mode switch
+                       {
+                           PriorityMode.Median => Convert.ToInt32(VMLoader.Resolve<ResoursesLimitViewModel>().ResoursesLimit - ),  
+                       });*/
+            };
+
         }
     }
 }

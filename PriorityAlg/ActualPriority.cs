@@ -109,7 +109,7 @@ namespace Caliber
             }
             foreach (var quartest in typeof(ResourseValue).GetFields())
             {
-                priority.Add(new Resourse { Number = (int)quartest.GetValue(resoursesPriseResult) });
+                //priority.Add(new Resourse { Number = (int)quartest.GetValue(resoursesPriseResult) });
             }
             return OutHavenResourses(priority);
         }
