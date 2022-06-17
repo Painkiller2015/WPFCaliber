@@ -10,7 +10,7 @@ namespace Caliber
 { 
     public static class HotkeyServices
     {
-        public static void test()
+        public static void StartKeyCapture()
         {
             var hotkey = new Hotkey(IntPtr.Zero);
 
@@ -21,8 +21,6 @@ namespace Caliber
             hotkey.Start();
 
         }
-
-
         static void Pause()
         {
             while (true)

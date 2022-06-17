@@ -100,12 +100,8 @@ namespace Caliber
                     _ => null
                 };
 
-
-
                 if (string.IsNullOrEmpty(resourseName))
                     continue;
-
-
 
                 int resoursesPosition = inputString.IndexOf(resourseName, StringComparison.OrdinalIgnoreCase);
 

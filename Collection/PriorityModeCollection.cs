@@ -13,5 +13,4 @@ namespace Caliber
         Median,
         Tehnologies
     }
-
 }

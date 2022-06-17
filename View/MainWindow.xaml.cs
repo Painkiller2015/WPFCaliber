@@ -25,6 +25,7 @@ namespace Caliber
         private GlobalHotKeyManager hotkeyManager;
         public MainWindow()
         {
+            Resourse resourse = new();          //заполнение словаря
             InitializeComponent();
         }
 

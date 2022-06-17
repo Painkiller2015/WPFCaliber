@@ -23,11 +23,10 @@ namespace Caliber
     }
     public class JsonResourseQuartestLevelParse
     {
-        public ResourseValue? ReourseValuse { get; private set; }
+        public ResourseValue? ResourseValue { get; private set; }
         public Quartest? QuartestValue { get; private set; }
         public List<UpgradeNumeric>? LevelValue { get; private set; }
         private string? _pathFile;
-
         public async void ResourseParse()
         {
             _pathFile = SysConfig.GetLogPath();
@@ -39,7 +38,7 @@ namespace Caliber
 
             string row = await SearchRow(contains);
             row = ResourseParseSubstring(row);
-            ReourseValuse = JsonConvert.DeserializeObject<ResourseValue>(row);
+            ResourseValue = JsonConvert.DeserializeObject<ResourseValue>(row);
         }
         public async void QuartestParse()
         {
@@ -69,10 +68,9 @@ namespace Caliber
         }
         public async Task LevelParse()
         {
-
             _pathFile = SysConfig.GetLogPath();
             string json = await SearchRow(new string[] { "OwnedUnlocksCount" }).ConfigureAwait(false);
-            JsonCharacterParse CharactersList = JsonConvert.DeserializeObject<JsonCharacterParse>(json); // TODO обрезать строку
+            JsonCharacterParse CharactersList = JsonConvert.DeserializeObject<JsonCharacterParse>(json);
 
             foreach (var character in CharactersList.CharactersList)
             {
@@ -84,7 +82,6 @@ namespace Caliber
                 };
                 LevelValue.Add(UN);
             }
-
         }
         private string ResourseParseSubstring(string row)
         {

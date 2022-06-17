@@ -34,10 +34,6 @@ namespace Caliber
         {
             Name = name;
             Number = numberResourses;
-
-
-            //DictNumResources[name] = this;\
-
         }
         public ResoursesCollectionEng Name { get; set; }
         public int Number { get; set; }
@@ -45,7 +41,6 @@ namespace Caliber
         public int Priority { get; set; } = default;
         public int Tier { get; set; } = default;
         public int DiffNumber { get => Number - StartedNumber; }
-
         public BitmapImage? ResourseImg { get; set; }
         public string _ResourseImgName { get; set; }
         public static Dictionary<ResoursesCollectionEng, Resourse> DictNumResources { get; } = new();

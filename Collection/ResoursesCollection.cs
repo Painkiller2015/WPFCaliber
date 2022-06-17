@@ -6,21 +6,20 @@ using System.Threading.Tasks;
 
 namespace Caliber
 {
-    public static class NamesResourses
-    {
-        static readonly Dictionary<string, string> NameResourse = new()
+    //////////////// ИДЕЯ ДЛЯ РЕФАКТОРИНГА: переделать на словарь ////////////////
+    /*    public static class NamesResourses
         {
-            {"alloy", "alloy" },
-            {"сплавы", "alloy" }    
-            //и т.д.
-        };
-        public static void GetEngResourseName(ref string resourseName)
-        {
-            NameResourse.TryGetValue(resourseName, out resourseName);
-        }
-    }
-    
-
+            static readonly Dictionary<string, string> NameResourse = new()
+            {
+                {"alloy", "alloy" },
+                {"сплавы", "alloy" }    
+                //и т.д.
+            };
+            public static void GetEngResourseName(ref string resourseName)
+            {
+                NameResourse.TryGetValue(resourseName, out resourseName);
+            }
+        }*/
 
     public enum ResoursesCollectionEng
     {
