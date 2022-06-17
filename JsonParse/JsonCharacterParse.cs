@@ -11,10 +11,10 @@ namespace Caliber
 {
     public class JsonCharacterParse
     {
-        public Characters[] CharactersList { get; set; }
+        public Character[] CharactersList { get; set; }
+     
     }
-
-    public class Characters
+    public class Character
     {
         public string cfgId { get; set; }
         public string collection { get; set; }

@@ -11,10 +11,11 @@ using System.Diagnostics;
 
 namespace Caliber
 {
-    public class QuartesLevels 
+    //TODO доставать из общего JSON объекта  
+    public class QuartestLevels 
     {
         public Quartest QuartesLevel { get; }
-        public QuartesLevels()
+        public QuartestLevels()
         {
             var parseQuarttesLevel = new JsonResourseQuartestLevelParse();
             parseQuarttesLevel.QuartestParse();
@@ -25,7 +26,7 @@ namespace Caliber
     {
         public ResourseValue? ResourseValue { get; private set; }
         public Quartest? QuartestValue { get; private set; }
-        public List<UpgradeNumeric>? LevelValue { get; private set; }
+        public List<WPFCaliber.Value.Character>? LevelValue { get; private set; }
         private string? _pathFile;
         public async void ResourseParse()
         {
@@ -74,11 +75,11 @@ namespace Caliber
 
             foreach (var character in CharactersList.CharactersList)
             {
-                UpgradeNumeric UN = new()
+                WPFCaliber.Value.Character UN = new()
                 {
                     role = character.role,
                     collection = character.collection,
-                    UnlocksUpgradeCount = character.OwnedUnlocksCount
+                    OwnedUnlocksCount = character.OwnedUnlocksCount
                 };
                 LevelValue.Add(UN);
             }
@@ -89,12 +90,14 @@ namespace Caliber
             row = row.Split("}}")[0] + "}";
             return row;
         }
+
         private string QuartestParseSubstring(string row)
         {
             row = row.Substring(row.IndexOf("{\"Physica\""));
             row = row.Split("},\"Curr ")[0] + "}";
             return row;
         }
+
         private string QuartestResearch(string row)
         {
             row = row.Substring(row.IndexOf("\"CurrentResearch\":{") + "\"CurrentResearch\":".Length);
@@ -108,6 +111,7 @@ namespace Caliber
 
             return a.TehnologyLine;
         }
+
         private async Task<string> SearchRow(string[] contains)
         {
             using (FileStream fs = new(_pathFile, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
@@ -151,5 +155,6 @@ namespace Caliber
             }
 
         }
+
     }
 }

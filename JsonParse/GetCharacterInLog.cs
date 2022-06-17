@@ -1,24 +1,124 @@
-﻿using System;
+﻿using Newtonsoft.Json;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using Newtonsoft.Json;
 using WPFCaliber.Value;
 
 namespace Caliber
 {
-    public static class Technologylines
+    public static class GetLogObject
     {
-        public static JsonParseQuarersPrise.Technologyline[] TechnologyLines { get; set; }
-        static Technologylines()
+        //TODO памагите
+        public static JsonLogObject.Technologyline[] GetTechLines()
         {
-            string json = File.ReadAllText(SysConfig.GetStaticPath());
-            TechnologyLines = JsonConvert.DeserializeObject<JsonParseQuarersPrise.Technologyline[]>(json);
+            string logPath = SysConfig.GetLogPath();
+
+            return JsonConvert.DeserializeObject<JsonLogObject.Technologyline[]>(json);
+
+        }
+
+
+
+        public async void QuartestParse()
+        {
+            string logPath = SysConfig.GetLogPath();
+            string[] contains = { "CurrentResearch" };
+            string row = await SearchRow(contains, logPath);
+
+            string? reserch = QuartestResearch(row);
+
+            var a =  JsonConvert.DeserializeObject<JsonLogObject.Technology.>(row);
+
+            if (reserch != null)
+            {
+                Type myType = typeof(Quartest);
+
+                for (int i = 0; i < myType.GetFields().Length; i++)
+                {
+                    if (myType.GetFields()[i].Name == reserch)
+                    {
+                        var field = myType.GetType().GetField(reserch);
+                        field.SetValue(this, (int)field.GetValue(QuartestValue) + 1);
+                        break;
+                    }
+                }
+            }
+        }
+
+        private static string QuartestResearch(string row)
+        {
+            row = row.Substring(row.IndexOf("\"CurrentResearch\":{") + "\"CurrentResearch\":".Length);
+            row = row.Split("},\"Boos")[0] + "}";
+            var research = JsonConvert.DeserializeObject<dynamic>(row);
+
+            if (research.FinishTime == "0001-01-01T00:00:00")
+            {
+                return null;
+            }
+
+            return research.TehnologyLine;
+        }
+        public static async Task<JsonLogObject.Technologyline[]> GetResoursesAsync()
+        {
+            string logPath = SysConfig.GetLogPath();
+            
+            string[] contains =
+            {
+                "https://login.playcaliber.com/v1/account/close_loot_box",
+                "https://login.playcaliber.com/v1/account/update"
+            };
+
+            string row = await SearchRow(contains, logPath);
+    
+            return JsonConvert.DeserializeObject<JsonLogObject.Technologyline[]>(row);
+        }
+        private static async Task<string> SearchRow(string[] contains, string path)
+        {
+            using (FileStream fs = new(path, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+            {
+                using (StreamReader reader = new(fs, Encoding.Default))
+                {
+                    long maxByte = 100000000;
+
+                    long readingByte;
+                    if (reader.BaseStream.Length > maxByte)
+                        readingByte = maxByte;
+                    else
+                        readingByte = reader.BaseStream.Length;
+
+                    _ = reader.BaseStream.Seek(-readingByte, SeekOrigin.End);
+
+                    string? row;
+
+                    int count = 0;
+                    do
+                    {
+                        row = await reader.ReadLineAsync().ConfigureAwait(false);
+
+                        count++;
+
+                        if (!string.IsNullOrWhiteSpace(row))
+                        {
+                            if (contains?.Length == 2)
+                            {
+                                if (row.Contains(contains[0]) || row.Contains(contains[1]))
+                                    return row;
+                            }
+                            else if (contains?.Length == 1)
+                                if (row.Contains(contains[0]))
+                                    return row;
+                        }
+                    } while (!reader.EndOfStream);
+                    return null;
+                }
+            }
+
         }
     }
-    public static class JsonParseQuarersPrise
+    public static class JsonLogObject
     {
         public class Technologyline
         {
@@ -39,27 +139,6 @@ namespace Caliber
         {
             public ResourseValue? values { get; set; }
         }
-
-        /*public class Value
-        {
-            public int sc { get; set; }
-            public int cm_t1_medicine { get; set; }
-            public int health_pack { get; set; }
-            public int stamina_regen_booster { get; set; }
-            public int cm_t1_alloy { get; set; }
-            public int cm_t1_fuel { get; set; }
-            public int cm_t2_composite { get; set; }
-            public int cm_t2_chemistry { get; set; }
-            public int cm_t2_encryption { get; set; }
-            public int cm_t3_blueprint { get; set; }
-            public int cm_t4_secretdev { get; set; }
-            public int cm_t3_microchip { get; set; }
-            public int free_xp { get; set; }
-            public int armor_pack { get; set; }
-            public int cm_t1_component { get; set; }
-            public int ammo_pack { get; set; }
-            public int special_revive { get; set; }
-        }*/
 
         public class Upgrade
         {
@@ -241,3 +320,4 @@ namespace Caliber
         }
     }
 }
+

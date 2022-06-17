@@ -19,7 +19,6 @@ namespace Caliber
             hotkey.Add(new Hotkey.NativeKey(Hotkey.ModifierKeys.Shift, Hotkey.WindowsKeys.Left), () => Process.GetCurrentProcess().Kill());
 
             hotkey.Start();
-
         }
         static void Pause()
         {
@@ -28,6 +27,5 @@ namespace Caliber
                 Thread.Sleep(100);
             }
         }
-
     }
 }

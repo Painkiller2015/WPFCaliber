@@ -10,21 +10,6 @@ namespace Caliber.ViewModels
 {
     internal class TakenResoursesViewModel : BindableBase, ISingleton
     {
-        public string[] TakenResourses { get; set; } 
-        public ICommand ChangeModeCommand
-        {
-            get => new DelegateCommand<string>((string newMode) =>
-            {
-                MainViewModel? mainView = VMLoader.Resolve<MainViewModel>();
-            });
-        }
-        public TakenResoursesViewModel()
-        {
-            TakenResoursesModel.TakenResoursesChanged += TakenResoursesModel_TakenResoursesChanged;
-        }
-        private void TakenResoursesModel_TakenResoursesChanged(object? sender, string[] e)
-        {
-            TakenResourses = e;
-        }
+        public List<int> TakenResourses { get; set; } = Resourse.DictNumResources.Values.Select(el => el.DiffNumber).ToList();
     }
 }

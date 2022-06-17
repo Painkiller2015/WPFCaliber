@@ -11,13 +11,6 @@ namespace Caliber.ViewModels
 {
     public class StartResoursesViewModel : BindableBase, ISingleton
     {
-        public List<Resourse> Resourses { get; set; } = Resourse.DictNumResources.Values.ToList();
-        public ICommand ChangeModeCommand
-        {
-            get => new DelegateCommand<string>((string newMode) =>
-            {
-                MainViewModel? mainView = VMLoader.Resolve<MainViewModel>();
-            });
-        }
+        public static List<Resourse> Resourses { get; set; } = Resourse.DictNumResources.Values.ToList();
     }
 }

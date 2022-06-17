@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using DevExpress.Mvvm;
 using WPFCaliber;
+using WPFCaliber.Model;
 
 namespace Caliber.ViewModels
 {

@@ -1,4 +1,5 @@
-﻿using Caliber.ViewModels;
+﻿using Caliber;
+using Caliber.ViewModels;
 using Newtonsoft.Json;
 using System;
 using System.Collections.Generic;
@@ -7,7 +8,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using WPFCaliber.Value;
 
-namespace Caliber
+namespace WPFCaliber.Model
 {
     public class ActualPriority
     {
@@ -86,9 +87,9 @@ namespace Caliber
         {
             List<Resourse> priority = new();
 
-            Quartest qv = new QuartesLevels().QuartesLevel;
+            Quartest qv = new QuartestLevels().QuartesLevel;
             var quartestType = typeof(Quartest);
-            var techLinesPrise = Technologylines.TechnologyLines;
+            var techLinesPrise = TechnologyLines.TechLines;
 
             ResourseValue resoursesPriseResult = new();
 
@@ -182,7 +183,7 @@ namespace Caliber
                             priority.Remove(item);
                         }
                         break;
-                    default: 
+                    default:
                         return null;
                 }
             }
