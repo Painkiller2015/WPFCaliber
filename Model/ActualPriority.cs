@@ -26,24 +26,23 @@ namespace WPFCaliber.Model
             };
         }
 
-        private List<Resourse> OutHavenResourses(List<Resourse> priority)
+        public static void OutHavenResourses(List<Resourse> priority)
         {
             foreach (var item in priority)
             {
            
             }
-            return priority;
+           
         }
-        private List<Resourse> OutOverLimitResourses(List<Resourse> priority)
+        public static void OutOverLimitResourses(List<Resourse> priority)
         {
             foreach (var item in priority)
             {
-                if (item.Number > _resourseLimit)
+                if (item.Number > Convert.ToInt32(new ResoursesLimitViewModel().ResoursesLimit))
                 {
                     priority.Remove(item);
                 }
             }
-            return priority;
         }
     }
 }

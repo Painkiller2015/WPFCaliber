@@ -4,15 +4,33 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPFCaliber.Value;
 
 namespace WPFCaliber.Model
 {
-    internal class AutoPriority
+    public class AutoPriority
     {
-        public static List<Resourse> GetAutoPriority()
+        public static void GetAutoPriority()
         {
-            List<Resourse> resoursesOrderByNumber = Resourse.DictNumResources.Values.OrderBy(el => el.Number).ToList();
-            return resoursesOrderByNumber;
+            ResourseValue resourse = LogObject.GetResourseValue();
+            var resourseValueFields = typeof(ResourseValue).GetFields();
+
+            foreach (var resourseField in resourseValueFields)
+            {
+                ResoursesCollectionEng res = (ResoursesCollectionEng)Enum.Parse(typeof(ResoursesCollectionEng), resourseField.Name);
+                Resourse.DictNumResources[res].Number = (int)resourseField.GetValue(resourse);
+            }
+            SetPriority();
+        }
+
+        private static void SetPriority()
+        {
+            int priority = 0;
+            foreach (var res in Resourse.DictNumResources.OrderBy(el => el.Value.Number))
+            {
+                res.Value.Priority = priority;
+                priority++;
+            }
         }
     }
 }

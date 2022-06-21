@@ -17,7 +17,7 @@ namespace Caliber
         public int DiffNumber { get => Number - StartedNumber; }
         public BitmapImage? ResourseImg { get; set; }
     
-        public static Dictionary<ResoursesCollectionEng, Resourse> DictNumResources { get; } = new();
+        public static Dictionary<ResoursesCollectionEng, Resourse> DictNumResources { get; set; } = new();
         public Resourse(ResoursesCollectionEng name, int numberResourses = 0)
         {
             Name = name;
