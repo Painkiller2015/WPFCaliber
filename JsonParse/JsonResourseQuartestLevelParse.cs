@@ -11,7 +11,7 @@ using System.Diagnostics;
 
 namespace Caliber
 {
-    //TODO доставать из общего JSON объекта  
+/*    //TODO доставать из общего JSON объекта  
     public class QuartestLevels 
     {
         public Quartest QuartesLevel { get; }
@@ -26,7 +26,7 @@ namespace Caliber
     {
         public ResourseValue? ResourseValue { get; private set; }
         public Quartest? QuartestValue { get; private set; }
-        public List<WPFCaliber.Value.Character>? LevelValue { get; private set; }
+        public List<WPFCaliber.Value.CharacterUpgrade>? LevelValue { get; private set; }
         private string? _pathFile;
         public async void ResourseParse()
         {
@@ -75,7 +75,7 @@ namespace Caliber
 
             foreach (var character in CharactersList.CharactersList)
             {
-                WPFCaliber.Value.Character UN = new()
+                WPFCaliber.Value.CharacterUpgrade UN = new()
                 {
                     role = character.role,
                     collection = character.collection,
@@ -156,5 +156,5 @@ namespace Caliber
 
         }
 
-    }
+    }*/
 }

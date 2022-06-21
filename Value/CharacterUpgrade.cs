@@ -7,7 +7,7 @@ using Caliber;
 
 namespace WPFCaliber.Value
 {
-    public class Character
+    public class CharacterUpgrade
     {
         public int OwnedUnlocksCount { get; set; }
         public Classes role { get; set; }

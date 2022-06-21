@@ -30,9 +30,18 @@ namespace WPFCaliber.Value
         public int microchip { get; set; }
         [JsonProperty("cm_t4_secretdev")]
         public int secretdev { get; set; }
-        public int GetValueOnName(string nameProperties)
+        public static ResourseValue Sum(ResourseValue rv1, ResourseValue rv2)
         {
-            return (int)typeof(ResourseValue).GetProperty(nameProperties).GetValue(this);
+            ResourseValue resultValue = new ResourseValue();
+            var resourseValueFields = typeof(ResourseValue).GetFields();
+
+            foreach (var field in resourseValueFields)
+            {
+                int firstValue = (int)field.GetValue(rv1);
+                int secondValuse = (int)field.GetValue(rv2);
+                field.SetValue(resultValue, firstValue + secondValuse);
+            }
+            return resultValue;
         }
     }
 }
