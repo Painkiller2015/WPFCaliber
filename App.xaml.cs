@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Media.Imaging;
 using WPFCaliber;
+using WPFCaliber.Value;
 
 namespace Caliber
 {
@@ -23,8 +24,14 @@ namespace Caliber
                 {
                     if (!Resourse.DictNumResources.ContainsKey((ResoursesCollectionEng)i))
                     {
-                        //TODO достать значение ресурсов для начального заполнения DictNumResources
-                        Resourse.DictNumResources.Add((ResoursesCollectionEng)i, new((ResoursesCollectionEng)i, 0));
+                        var rsourseValueFields = typeof(ResourseValue).GetFields();
+                        var resourse = LogObject.GetResourseValue();
+
+                        foreach (var resourseField in rsourseValueFields)
+                        {
+                            int resValue = (int)resourseField.GetValue(resourse);
+                            Resourse.DictNumResources.Add((ResoursesCollectionEng)i, new((ResoursesCollectionEng)i, resValue, resValue));
+                        }
 
                         string resourseName = Enum.GetName((ResoursesCollectionEng)i);
                         Resourse.DictNumResources.Last().Value.ResourseImg = new(new Uri($"pack://application:,,,/Resourses/{resourseName}.png"));

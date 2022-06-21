@@ -130,7 +130,6 @@ namespace Caliber
             }
             return technologies;
         }
-
     }
 }
 

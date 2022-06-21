@@ -43,5 +43,18 @@ namespace WPFCaliber.Value
             }
             return resultValue;
         }
+        public static ResourseValue Sub(ResourseValue rv1, ResourseValue rv2)
+        {
+            ResourseValue resultValue = new ResourseValue();
+            var resourseValueFields = typeof(ResourseValue).GetFields();
+
+            foreach (var field in resourseValueFields)
+            {
+                int firstValue = (int)field.GetValue(rv1);
+                int secondValuse = (int)field.GetValue(rv2);
+                field.SetValue(resultValue, firstValue - secondValuse);
+            }
+            return resultValue;
+        }
     }
 }

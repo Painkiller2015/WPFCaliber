@@ -35,7 +35,7 @@ namespace Caliber.ViewModels
                 else if (HandMode)
                     newMode = PriorityMode.Max;
                 else if (TehnologiesMode)
-                    newMode = PriorityMode.Median;
+                    newMode = PriorityMode.Auto;
                 else if (MaxMode)
                     newMode = PriorityMode.Tehnologies;
 

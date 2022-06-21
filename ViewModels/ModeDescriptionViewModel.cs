@@ -43,7 +43,7 @@ namespace Caliber.ViewModels
                 case PriorityMode.Max:
                     ModeDescription = "Собирает ресурсы на прокачку ВСЕГО";
                     break;
-                case PriorityMode.Median:
+                case PriorityMode.Auto:
                     ModeDescription = "Cобирает ресурсы до одного уровня";
                     break;
                 case PriorityMode.Tehnologies:

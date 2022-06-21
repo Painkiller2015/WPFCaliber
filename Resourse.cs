@@ -23,5 +23,11 @@ namespace Caliber
             Name = name;
             Number = numberResourses;
         }
+        public Resourse(ResoursesCollectionEng name, int numberResourses = 0, int startedNumber = 0)
+        {
+            Name = name;
+            Number = numberResourses;
+            StartedNumber = startedNumber;
+        }
     }
 }

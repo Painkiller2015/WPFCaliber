@@ -6,11 +6,14 @@ using System.Threading.Tasks;
 
 namespace Caliber
 { 
+    /// <summary>
+    /// режимы работы сборщика
+    /// </summary>
     public enum PriorityMode
     {
         Hand,
         Max,
-        Median,
+        Auto,
         Tehnologies
     }
 }
