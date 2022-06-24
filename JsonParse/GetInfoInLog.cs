@@ -60,13 +60,15 @@ namespace Caliber
         private static Json.Accaunt.LogObject.Account GetAccauntInfo()
         {
             string conteinLine = SearchRow(_AccountInfoRow, _LogPath).Result;
+            conteinLine = conteinLine.Remove(0, 66);//TODO сделать нормально
             var deserializedAccount = JsonConvert.DeserializeObject<Json.Accaunt.LogObject.Account>(conteinLine);
             return deserializedAccount;
         }
         private static List<Json.Character.LogObject.Character> GetCharactesInfo()
         {
-            string ConteinLine = SearchRow(_CharactersInfoRow, _LogPath).Result;
-            var deserializedCharacters = JsonConvert.DeserializeObject<List<Json.Character.LogObject.Character>>(ConteinLine);
+            string conteinLine = SearchRow(_CharactersInfoRow, _LogPath).Result;
+            conteinLine = conteinLine.Remove(0, 73);//TODO сделать нормально
+            var deserializedCharacters = JsonConvert.DeserializeObject<List<Json.Character.LogObject.Character>>(conteinLine);
             return deserializedCharacters;
         }
         private static async Task<string> SearchRow(string[] contains, string path)

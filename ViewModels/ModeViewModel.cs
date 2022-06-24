@@ -9,13 +9,13 @@ using WPFCaliber;
 
 namespace Caliber.ViewModels
 {
-    internal class ModeViewModel : BindableBase, ISingleton
+    public class ModeViewModel : BindableBase, ISingleton
     {
         public static event EventHandler<PriorityMode> ModeChanged;
 
         #region Properties
 
-        public bool MedianMode { get; set; }
+        public bool AutoMode { get; set; }
         public bool HandMode { get; set; }
         public bool TehnologiesMode { get; set; }
         public bool MaxMode { get; set; }
@@ -24,20 +24,18 @@ namespace Caliber.ViewModels
 
         public ICommand ChangeModeCommand
         {
-            get => new DelegateCommand<PriorityMode>((PriorityMode newMode) =>
+            get => new DelegateCommand(() =>
             {
-                MainViewModel? mainView = VMLoader.Resolve<MainViewModel>();
-                mainView.Started = true;
-                mainView.NotStarted = false;
+                PriorityMode newMode = new();
 
-                if (MedianMode)
-                    newMode = PriorityMode.Hand;
+                if (AutoMode)
+                     newMode = PriorityMode.Auto;
                 else if (HandMode)
-                    newMode = PriorityMode.Max;
+                    newMode = PriorityMode.Hand;
                 else if (TehnologiesMode)
-                    newMode = PriorityMode.Auto;
-                else if (MaxMode)
                     newMode = PriorityMode.Tehnologies;
+                else if (MaxMode)
+                    newMode = PriorityMode.Max;
 
                 ModeChanged?.Invoke(this, newMode);
             });

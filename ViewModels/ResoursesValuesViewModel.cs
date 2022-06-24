@@ -9,8 +9,8 @@ using DevExpress.Mvvm;
 
 namespace Caliber.ViewModels
 {
-    public class StartResoursesViewModel : BindableBase, ISingleton
+    public class ResoursesValuesViewModel : BindableBase, ISingleton
     {
-        public static List<Resourse> Resourses { get; set; } = Resourse.DictNumResources.Values.ToList();
+        public Dictionary<ResoursesCollectionEng, Resourse> Resourse  { get => Caliber.Resourse.DictNumResources; }
     }
 }

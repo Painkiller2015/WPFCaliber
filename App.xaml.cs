@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Media.Imaging;
 using WPFCaliber;
 using WPFCaliber.Value;
+using System.Reflection;
+using System.Runtime.CompilerServices;
 
 namespace Caliber
 {
@@ -20,22 +22,21 @@ namespace Caliber
         {
             if (!Resourse.DictNumResources.Any())
             {
-                for (int i = 0; i < Enum.GetValues<ResoursesCollectionEng>().Length; i++)
+                FieldInfo[]? resourseValueFields = typeof(ResourseValue).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
+
+                var resourse = LogObject.GetResourseValue();
+
+                int j = 0;
+                foreach (var resourseField in resourseValueFields)
                 {
-                    if (!Resourse.DictNumResources.ContainsKey((ResoursesCollectionEng)i))
-                    {
-                        var rsourseValueFields = typeof(ResourseValue).GetFields();
-                        var resourse = LogObject.GetResourseValue();
+                    if (resourseField.Name == "<sc>k__BackingField")
+                        continue;
 
-                        foreach (var resourseField in rsourseValueFields)
-                        {
-                            int resValue = (int)resourseField.GetValue(resourse);
-                            Resourse.DictNumResources.Add((ResoursesCollectionEng)i, new((ResoursesCollectionEng)i, resValue, resValue));
-                        }
-
-                        string resourseName = Enum.GetName((ResoursesCollectionEng)i);
-                        Resourse.DictNumResources.Last().Value.ResourseImg = new(new Uri($"pack://application:,,,/Resourses/{resourseName}.png"));
-                    }
+                    int resValue = (int)resourseField.GetValue(resourse);
+                    Resourse.DictNumResources.Add((ResoursesCollectionEng)j, new((ResoursesCollectionEng)j, resValue, resValue));
+                    string resourseName = Enum.GetName((ResoursesCollectionEng)j);
+                    Resourse.DictNumResources.Last().Value.ResourseImg = new(new Uri($"pack://application:,,,/Resourses/{resourseName}.png"));
+                    j++;
                 }
             }
             base.OnStartup(e);

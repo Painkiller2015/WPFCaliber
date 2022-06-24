@@ -10,7 +10,6 @@ namespace Caliber.Json.Accaunt
 {
     public static partial class LogObject
     {
-        // static Accaunt myDeserializedClass = JsonConvert.DeserializeObject<Accaunt>(myJsonResponse);
         public class Account
         {
             public int version { get; set; }

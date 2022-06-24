@@ -8,9 +8,9 @@ using WPFCaliber.Value;
 
 namespace WPFCaliber.Model
 {
-    public class AutoPriority
+    public class AutoPriority : IPriority
     {
-        public static void GetAutoPriority()
+        public static void GetPriority()
         {
             ResourseValue resourse = LogObject.GetResourseValue();
             var resourseValueFields = typeof(ResourseValue).GetFields();
@@ -26,11 +26,8 @@ namespace WPFCaliber.Model
         private static void SetPriority()
         {
             int priority = 0;
-            foreach (var res in Resourse.DictNumResources.OrderBy(el => el.Value.Number))
-            {
-                res.Value.Priority = priority;
-                priority++;
-            }
+            foreach (var res in Resourse.DictNumResources.OrderByDescending(el => el.Value.Number))
+                res.Value.Priority = priority++;
         }
     }
 }

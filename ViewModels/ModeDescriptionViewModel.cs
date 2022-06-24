@@ -30,26 +30,13 @@ namespace Caliber.ViewModels
         }
         private void UpdateDescription(PriorityMode newMode)
         {
-            MainViewModel? mainView = VMLoader.Resolve<MainViewModel>();
-
-            mainView.Started = true;
-            mainView.NotStarted = false;
-
-            switch (newMode)
+            ModeDescription = newMode switch
             {
-                case PriorityMode.Hand:
-                    ModeDescription = "Cобирает ресурсы с заданным приоритетом";
-                    break;
-                case PriorityMode.Max:
-                    ModeDescription = "Собирает ресурсы на прокачку ВСЕГО";
-                    break;
-                case PriorityMode.Auto:
-                    ModeDescription = "Cобирает ресурсы до одного уровня";
-                    break;
-                case PriorityMode.Tehnologies:
-                    ModeDescription = "Собирает недостающие для навыков ресурсы ";
-                    break;
-            }
+                PriorityMode.Hand => ModeDescription = "Cобирает ресурсы с заданным приоритетом",
+                PriorityMode.Max => ModeDescription = "Собирает ресурсы на прокачку ВСЕГО",
+                PriorityMode.Auto => ModeDescription = "Cобирает ресурсы до одного уровня",
+                PriorityMode.Tehnologies => ModeDescription = "Собирает недостающие для навыков ресурсы ",
+            };
         }
     }
 }

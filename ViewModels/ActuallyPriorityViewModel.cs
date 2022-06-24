@@ -12,21 +12,33 @@ namespace Caliber.ViewModels
 {
     public class ActuallyPriorityViewModel : BindableBase, ISingleton
     {
-        public List<Resourse> ActuallyPriority { get; set; }
+        public Dictionary<ResoursesCollectionEng, Resourse> ResourseCollection { get => Resourse.DictNumResources; } 
+        public Resourse SelectedResourse { get; set; } 
         public ActuallyPriorityViewModel()
         {
-            ActuallyPriority = new List<Resourse>();
 
             ModeViewModel.ModeChanged += (object? _, PriorityMode s) =>
             {
-                GetPriority(s);
+                // GetPriority(s);
             };
 
         }
-        public List<Resourse> GetPriority(PriorityMode s)
+
+
+        public ICommand UpPriority
         {
-            ActualPriority actual = new(s);
-            return ActuallyPriority = actual.Priority;
+            get => new DelegateCommand(() =>
+            {
+
+            });
+            
+        }
+        public ICommand DownPriority
+        {
+            get => new DelegateCommand(() =>
+            {
+
+            });
         }
     }
 }

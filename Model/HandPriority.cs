@@ -8,13 +8,13 @@ using Caliber.ViewModels;
 
 namespace WPFCaliber.Model
 {
-    public class HandPriority
+    public class HandPriority : IPriority
     {
         //TODO Брать с формы выставленный юзером лист 
-        public static List<Resourse> GetHandPriority()
+        public static void GetHandPriority()
         {
-            List<Resourse> priority = new ActuallyPriorityViewModel().ActuallyPriority;
-            return priority;
+            var a = Resourse.DictNumResources.Values;
+          
         }
     }
 }

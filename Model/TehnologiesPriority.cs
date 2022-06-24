@@ -8,12 +8,11 @@ using WPFCaliber.Value;
 
 namespace WPFCaliber.Model
 {
-    public class TehnologiesPriority
+    public class TehnologiesPriority : IPriority
     {
-        public static List<Resourse> GetTehnologiesPriority()
+        public static void GetTehnologiesPriority()
         {
-            List<Resourse> priority = new();
-            return priority;
+            
         }
     }
 }

@@ -23,12 +23,12 @@ namespace WPFCaliber.Value
             PriceUpgradesClasses? upgradeList = StaticObject.GetPriceCharactersUpgrade();
             ResourseValue resourseValue = new();
 
-            string characterClassName = Enum.GetName(characterClass);
-            FieldInfo characterClassField = typeof(PriceUpgradesClasses).GetField(characterClassName);
+            string? characterClassName = Enum.GetName(characterClass);
+            FieldInfo? characterClassField = typeof(PriceUpgradesClasses)?.GetField(characterClassName);
 
             for (int upgradeId = startInd; upgradeId < _MaxLvl; upgradeId++) //TODO старт индекс с 0 или 1 ??? 
             {
-                List<ResourseValue> price = (List<ResourseValue>)characterClassField.GetValue(upgradeList);
+                List<ResourseValue>? price = characterClassField?.GetValue(upgradeList) as List<ResourseValue>;
                 resourseValue = ResourseValue.Sum(resourseValue, price[upgradeId]);
             }
             return resourseValue;

@@ -7,12 +7,11 @@ using System.Threading.Tasks;
 
 namespace WPFCaliber.Model
 {
-    public class MaxPriority
+    public class MaxPriority : IPriority
     {
-        public static List<Resourse> GetMaxPriority()
+        public static void GetMaxPriority()
         {
             List<Resourse> resoursesPrise = new();
-            return null;
         }
     }
 }

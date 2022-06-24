@@ -13,8 +13,9 @@ using System.Linq;
 using ImageFormat = System.Drawing.Imaging.ImageFormat;
 using WPFCaliber.Value;
 using Caliber.ViewModels;
+using Caliber;
 
-namespace Caliber
+namespace WPFCaliber.Model
 {
     public class Worker
     {
@@ -24,7 +25,7 @@ namespace Caliber
         static readonly int _maxCountResourses = Resourse.DictNumResources.Count;
 
         //TODO запускать StartProcessOpenCase по кнопке пуска
-        public static void StartProcessOpenCase(ResourseValue resourseValue)
+        public static void StartProcessOpenCase()
         {
             OpenCase();
             Thread.Sleep(3500);
@@ -87,7 +88,7 @@ namespace Caliber
         private static ResoursesCollectionEng[] GetContainResourses(string inputString)
         {
             if (string.IsNullOrWhiteSpace(inputString)) return default;
-            
+
 
             ResoursesCollectionEng[] caseContain = new ResoursesCollectionEng[5];
             int[] arrayResoursePosition = new int[5];
@@ -142,7 +143,7 @@ namespace Caliber
 
             int x = cell switch
             {
-                0 => x = (int)(SysConfig.GetWidthScreen() / 5),
+                0 => x = SysConfig.GetWidthScreen() / 5,
                 1 => x = (int)(SysConfig.GetWidthScreen() / 2.8),
                 2 => x = (int)(SysConfig.GetWidthScreen() / 1.93),
                 3 => x = (int)(SysConfig.GetWidthScreen() / 1.5),
