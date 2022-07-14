@@ -8,6 +8,14 @@
     <UseWindowsForms>True</UseWindowsForms>
   </PropertyGroup>
 
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|AnyCPU'">
+    <WarningLevel>7</WarningLevel>
+  </PropertyGroup>
+
   <ItemGroup>
     <Compile Remove="Новая папка\**" />
     <EmbeddedResource Remove="Новая папка\**" />
@@ -16,6 +24,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="cry.ico" />
     <None Remove="NewFile1.txt" />
     <None Remove="QuartersTechonologiesResourse.json" />
     <None Remove="Resourses\alloy.png" />
@@ -48,12 +57,22 @@
     <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="6.0.0" />
     <PackageReference Include="Microsoft.Extensions.Hosting" Version="6.0.1" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.1" />
-    <PackageReference Include="Scrutor" Version="4.1.0" />
+    <PackageReference Include="Scrutor" Version="4.2.0" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
     <PackageReference Include="Tesseract" Version="4.1.1" />
   </ItemGroup>
 
   <ItemGroup>
+    <Reference Include="AutoItX3.Assembly">
+      <HintPath>D:\Utilits\autoit-v3-setup\AutoIt3\AutoItX\AutoItX3.Assembly.dll</HintPath>
+    </Reference>
+    <Reference Include="AutoItX3.PowerShell">
+      <HintPath>D:\Utilits\autoit-v3-setup\AutoIt3\AutoItX\AutoItX3.PowerShell.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="cry.ico" />
     <Resource Include="Resourses\alloy.png" />
     <Resource Include="Resourses\blueprint.png" />
     <Resource Include="Resourses\chemistry.png" />

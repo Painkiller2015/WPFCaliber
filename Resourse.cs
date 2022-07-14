@@ -15,6 +15,8 @@ namespace Caliber
         public int Priority { get; set; } = default;
         public int Tier { get; set; } = default;
         public int DiffNumber { get => Number - StartedNumber; }
+        public int DesiredNumber { get; set; }
+        public int LimitNumber { get; set; } = 50000;
         public BitmapImage? ResourseImg { get; set; }
     
         public static Dictionary<ResoursesCollectionEng, Resourse> DictNumResources { get; set; } = new();
@@ -23,11 +25,12 @@ namespace Caliber
             Name = name;
             Number = numberResourses;
         }
-        public Resourse(ResoursesCollectionEng name, int numberResourses = 0, int startedNumber = 0)
+        public Resourse(ResoursesCollectionEng name, int numberResourses, int startedNumber, int priority)
         {
             Name = name;
             Number = numberResourses;
             StartedNumber = startedNumber;
+            Priority = priority;
         }
     }
 }

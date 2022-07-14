@@ -10,7 +10,7 @@ namespace Caliber
     public interface ITransient { }
     public interface ISingleton { }
 
-    internal class VMLoader
+    public class VMLoader
     {
         private static readonly IServiceProvider Provider;
 
@@ -41,7 +41,9 @@ namespace Caliber
         public ViewModels.ModeDescriptionViewModel? ModeDescriptionViewModel { get => Resolve<ViewModels.ModeDescriptionViewModel>(); }
         public ViewModels.ModeViewModel? ModeViewModel { get => Resolve<ViewModels.ModeViewModel>(); }
         public ViewModels.NeededResoursesViewModel? NeededResoursesViewModel { get => Resolve<ViewModels.NeededResoursesViewModel>(); }
-        public ViewModels.ResoursesLimitViewModel? ResoursesLimitViewModel { get => Resolve<ViewModels.ResoursesLimitViewModel>(); }
-        public ViewModels.ResoursesValuesViewModel? ResoursesValuesViewModel { get => Resolve<ViewModels.ResoursesValuesViewModel>(); }
+        public ViewModels.LimitResoursesViewModel? LimitResoursesViewModel { get => Resolve<ViewModels.LimitResoursesViewModel>(); }
+        public ViewModels.DifferendResourseViewModel? DifferendResourseViewModel { get => Resolve<ViewModels.DifferendResourseViewModel>(); }
+        public ViewModels.ImagesNumbersResoursesViewModel? ImagesNumbersResoursesViewModel { get => Resolve<ViewModels.ImagesNumbersResoursesViewModel>(); }
     }
+    
 }

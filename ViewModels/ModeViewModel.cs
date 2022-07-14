@@ -29,14 +29,25 @@ namespace Caliber.ViewModels
                 PriorityMode newMode = new();
 
                 if (AutoMode)
-                     newMode = PriorityMode.Auto;
+                {
+                    newMode = PriorityMode.Auto;
+                    AutoMode = true;
+                }
                 else if (HandMode)
+                {
                     newMode = PriorityMode.Hand;
+                    HandMode = true;
+                }
                 else if (TehnologiesMode)
+                {
                     newMode = PriorityMode.Tehnologies;
+                    TehnologiesMode = true;
+                }
                 else if (MaxMode)
+                {
                     newMode = PriorityMode.Max;
-
+                    MaxMode = true;
+                }
                 ModeChanged?.Invoke(this, newMode);
             });
         }

@@ -3,6 +3,7 @@ using System.Drawing;
 using System.Runtime.InteropServices;
 using System.IO;
 using System;
+using System.Globalization;
 
 namespace Caliber
 {
@@ -10,7 +11,7 @@ namespace Caliber
     {
         public static string GetSystemLanguage()
         {
-            var culture = System.Globalization.CultureInfo.CurrentCulture;
+            CultureInfo culture = CultureInfo.CurrentCulture;
             return culture.ThreeLetterISOLanguageName;
         }
         public static int GetWidthScreen()

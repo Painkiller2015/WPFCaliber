@@ -7,18 +7,18 @@
         xmlns:md="http://materialdesigninxaml.net/winfx/xaml/themes"
         xmlns:local="clr-namespace:Caliber"
         mc:Ignorable="d"
-        Title="MainWindow"
-        Height="640"
+        Title="Хочу плакать"
+        Height="600"
         Width="800"
-        Background="Gray">
+        Background="Gray"
+        Icon="../cry.ico">
 
     <Window.Resources>
         <Style TargetType="RadioButton">
             <Setter Property="Margin" Value="10,10,0,0" />
         </Style>
-        <BooleanToVisibilityConverter x:Key="BoolToVisibility" />
+        <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     </Window.Resources>
-
 
     <Grid ShowGridLines="True">
 
@@ -34,15 +34,6 @@
             <ColumnDefinition/>
             <ColumnDefinition Width="auto" MinWidth="100"/>
         </Grid.ColumnDefinitions>
-
-        <!--<StackPanel Grid.Column="0" Grid.Row="0"
-                    Orientation="Horizontal"
-                    Height="100">
-            <RadioButton Content="Равномерно" IsChecked="True"/>
-            <RadioButton Content="Ручная"/>
-            <RadioButton Content="Навыки"/>
-            <RadioButton Content="Максимум"/>
-        </StackPanel>-->
 
         <StackPanel DataContext="{Binding Source={StaticResource VMLoader}, Path=ModeViewModel}"
                     Orientation="Horizontal"
@@ -77,23 +68,23 @@
                   />
         <TextBox Grid.Column="3" Grid.Row="0"
                  md:HintAssist.Hint="Лимит ресурсов"
-                 DataContext="{Binding Source={StaticResource VMLoader}, Path=ResoursesLimitViewModel}"
+                 DataContext="{Binding Source={StaticResource VMLoader}, Path=LimitResoursesViewModel}"
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center"
                  FontSize="15"
-                 Text="{Binding ResoursesLimit}"
+                 Text="{Binding LimitResourses}"
                  />
 
         <ListBox Grid.Column="1" Grid.Row="1" 
-                 DataContext="{Binding Source={StaticResource VMLoader}, Path=ResoursesValuesViewModel}"
-                 ItemsSource="{Binding Resourse.Values}"
+                 DataContext="{Binding Source={StaticResource VMLoader}, Path=ImagesNumbersResoursesViewModel}"
+                 ItemsSource="{Binding ObsNumbersResoursesCollection}"
+                 VerticalAlignment="Bottom"
                  >
             <ListBox.ItemTemplate>
                 <DataTemplate>
-                    <md:Chip Content="{Binding StartedNumber}" Margin="0 -5">
-                        <md:Chip.Icon>
+                    <md:Chip Content="{Binding StartedNumber}" Margin="0 -3.2">
+                        <md:Chip.Icon >
                             <Image Source="{Binding ResourseImg}"/>
-
                         </md:Chip.Icon>
                     </md:Chip>
                 </DataTemplate>
@@ -101,20 +92,19 @@
         </ListBox>
 
         <ListView Grid.Column="2" Grid.Row="1" 
-                 DataContext="{Binding Source={StaticResource VMLoader}, Path=ResoursesValuesViewModel}"
-                  ItemsSource="{Binding Resourse.Values}">
-            <ListView.ItemTemplate>
-                <DataTemplate>
-                    <Grid>
-                        <Grid.ColumnDefinitions/>
-                        <Label Content="{Binding DiffNumber}"/>
-                    </Grid>
-                </DataTemplate>
-            </ListView.ItemTemplate>
+                  x:Name="DifferendResourses"
+                  DataContext="{Binding Source={StaticResource VMLoader}, Path=DifferendResourseViewModel}"
+                  ItemsSource="{Binding ObsDifferendResourseCollection}"
+                  VerticalAlignment="Bottom">
         </ListView>
-        <ListBox Grid.Column="3" Grid.Row="1" 
-                 d:ItemsSource="{d:SampleData ItemCount=10}" 
-                 />
+
+        <ListView Grid.Column="3" Grid.Row="1" 
+                  x:Name="NeededResourses"
+                  DataContext="{Binding Source={StaticResource VMLoader}, Path=NeededResoursesViewModel}"
+                  ItemsSource="{Binding ObsNeededResourseCollection}"
+                  VerticalAlignment="Bottom">
+        </ListView>
+
         <Label Grid.Row="2"
             DataContext="{Binding Source={StaticResource VMLoader}, Path=ModeDescriptionViewModel}"
             Content="{Binding ModeDescription}"
@@ -126,19 +116,19 @@
                 <RowDefinition/>
             </Grid.RowDefinitions>
 
-            <Grid Grid.Row="0"  >
+            <Grid Grid.Row="0"  x:Name="ControlButton" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="auto"/>
                     <ColumnDefinition Width="auto"/>
                 </Grid.ColumnDefinitions>
 
                 <Button Grid.Column="0" 
-                        Command="{Binding UpPriority}"
+                        Command="{Binding UpPriorityCommand}"
                         Content="{md:PackIcon Kind=ChevronUpCircle}"  
                         Margin="5 0"
                         />
                 <Button Grid.Column="1"
-                        Command="{Binding DownPriority}"
+                        Command="{Binding DownPriorityCommand}"
                         Content="{md:PackIcon Kind=ChevronDownCircle}"
                         Margin="5 0" 
                         />
@@ -146,38 +136,14 @@
 
             <ListView 
                   Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=10}"
-                  ItemsSource="{Binding ResourseCollection}"
+                  ItemsSource="{Binding ObsResourseCollection, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedResourse}"
-                  >
-                <ListView.ItemTemplate>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                                <ColumnDefinition/>
-                            </Grid.ColumnDefinitions>
-                            <Label Grid.Column="0" Content="{Binding Key}"/>
-                            <!--<Label Grid.Column="1" Content="{Binding Value.Number}"/>-->
-                            <!--<Label Grid.Column="2" Content="{Binding Value.Priority}"/>-->
-                        </Grid>
-                    </DataTemplate>
-                </ListView.ItemTemplate>
-                <ListView.ToolTip>
-                    <ToolTip>
-                        <!--<MenuItem Header="up!" Command="{}" />
-                        <MenuItem Header="down!" Command="{}" />-->
-                    </ToolTip>
-                </ListView.ToolTip>
-                <!--<ListView.View>
-                    <GridView>
-                        <GridViewColumn/>
-                    </GridView>
-                </ListView.View>-->
+                  x:Name="PriorityResourse"
+             >
             </ListView>
         </Grid>
 
-        <!--<Grid Grid.Column="3" Grid.Row="2">
+        <!--<Grid Grid.Column="2" Grid.Row="0" Width="150">
             <Button Content="Start" Visibility="{Binding Started , Converter={StaticResource BoolToVisibility}}" CommandParameter="{Binding MyItemList}"/>
             <Button Content="Stop"  Visibility="{Binding NotStarted , Converter={StaticResource BoolToVisibility}}" CommandParameter="{Binding MyItemList2}"/>
         </Grid>-->

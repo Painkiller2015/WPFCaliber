@@ -8,8 +8,8 @@ using DevExpress.Mvvm;
 
 namespace Caliber.ViewModels
 {
-    public class ResoursesLimitViewModel : BindableBase, ISingleton
+    public class LimitResoursesViewModel : BindableBase, ISingleton
     {
-        public string ResoursesLimit { get; set; }
+        public string LimitResourses { get; set; }
     }
 }

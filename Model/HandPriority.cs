@@ -5,16 +5,19 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Caliber.ViewModels;
+using WPFCaliber.Value;
 
 namespace WPFCaliber.Model
 {
-    public class HandPriority : IPriority
+    public class HandPriority : Priority
     {
-        //TODO Брать с формы выставленный юзером лист 
-        public static void GetHandPriority()
+        //TODO Брать с формы выставленный юзером лист, мб выкинуть этот класс
+        public Dictionary<ResoursesCollectionEng, Resourse> ResourseCollection { get => Resourse.DictNumResources; }
+        public static void SetPriority()
         {
-            var a = Resourse.DictNumResources.Values;
-          
+            SetDesiredNumber();
+            OrderPriority();
+            UpdateData();
         }
     }
 }

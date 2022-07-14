@@ -6,22 +6,27 @@ using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
 using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using WPFCaliber.Value;
+using static Caliber.Json.StaticObject;
 
 namespace Caliber
 {
     public partial class StaticObject
     {
-        static readonly string _StaticPath = SysConfig.GetStaticPath();
-        static readonly Json.StaticObject.Static _StaticObject = GetStatic();
-
-        private static Json.StaticObject.Static GetStatic()
+        static readonly string _StaticPath;
+        static readonly dynamic _StaticObject;
+        static StaticObject()
         {
-            string av = File.ReadAllText(_StaticPath);
-            var deserializedStatic = JsonConvert.DeserializeObject<Json.StaticObject.Static>(av);
+            _StaticPath = SysConfig.GetStaticPath();
+            _StaticObject = GetStatic();
+        }
+        private static dynamic GetStatic()
+        {
+            string staticJSON = File.ReadAllText(_StaticPath);
+            dynamic deserializedStatic = JsonConvert.DeserializeObject(staticJSON);
             return deserializedStatic;
         }
-
         public static PriceQuartesTehologies GetQuartersPrise()
         {
             PriceQuartesTehologies priceQuartes = new();
@@ -44,36 +49,35 @@ namespace Caliber
         }
         public static PriceUpgradesClasses GetPriceCharactersUpgrade()
         {
-            int[] recruitId = { 0, 1, 2, 3 };
-            int[] ww2Id = { 60, 61, 62, 63 };
+            //int[] recruitId = { 0, 1, 2, 3 };     разработчики сломали id карточек
+            //int[] ww2Id = { 60, 61, 62, 63 };
 
             PriceUpgradesClasses priceUpgrades = new();
 
             foreach (var character in _StaticObject.CharacterCards)
             {
-                if (Array.IndexOf(recruitId, character.Id) == -1 ||
-                    Array.IndexOf(ww2Id, character.Id) == -1)
+                if (character.collection == "RUS_RECRUIT" || character.collection == "SOV_WW2")
                     continue;
 
                 List<ResourseValue> price = new();
 
-                foreach (var ability in character.Abilities)
+                foreach (var ability in character.abilities)
                 {
-                    foreach (var upgrade in ability.Upgrades)
+                    foreach (var upgrade in ability.upgrades)
                     {
-                        price.Add(upgrade.Cost.Values);
+                        price.Add(ToResourseValue(upgrade.cost.values));
                     }
                 }
-                foreach (var item in character.Items)
+                foreach (var item in character.items)
                 {
-                    foreach (var upgrade in item.Upgrades)
+                    foreach (var upgrade in item.upgrades)
                     {
-                        price.Add(upgrade.Cost.Values);
+                        price.Add(ToResourseValue(upgrade.cost.values));
                     }
                 }
-                foreach (var perk in character.Perks)
+                foreach (var perk in character.perks)
                 {
-                    price.Add(perk.Cost.Values);
+                    price.Add(ToResourseValue(perk.cost.values));
                 }
                 price.OrderBy(el => el.sc);
 
@@ -94,6 +98,26 @@ namespace Caliber
                 }
             }
             return priceUpgrades;
+        }
+        private static ResourseValue ToResourseValue(dynamic resourses)
+        {
+            ResourseValue resourse = new();
+            BindingFlags flags = BindingFlags.Instance | BindingFlags.NonPublic | BindingFlags.Public;
+            var resourseValueField = typeof(ResourseValue).GetFields();
+
+            foreach (var item in resourses)
+            {
+                JProperty jProperty = item;
+
+                foreach (FieldInfo field in resourseValueField)
+                {
+                    string jsonFieldName = field.GetCustomAttribute<JsonPropertyAttribute>().PropertyName;
+
+                    if (jsonFieldName == jProperty.Name)
+                        field.SetValue(resourse, jProperty.Value.ToObject<int>());
+                }
+            }
+            return resourse;
         }
     }
 }

@@ -32,24 +32,23 @@ namespace Caliber
         }
         public static List<CharacterUpgrade> GetCharactersLevels()
         {
-            int recruitCount = 3;
-            List<CharacterUpgrade> upgrade = new List<CharacterUpgrade>();
+            int recruitCount = 4;
+            List<CharacterUpgrade> upgrade = new();
 
-            foreach (var item in _CharactersInfo)
+            foreach (var chararcter in _CharactersInfo)
             {
-                if (item.id < recruitCount)
-                {
-                    recruitCount++;
+                if (chararcter.id < recruitCount)
                     continue;
-                }
+                
                 upgrade.Add(
                     new CharacterUpgrade
                     {
-                        collection = item.collection,
-                        OwnedUnlocksCount = item.OwnedUnlocksCount,
-                        role = item.role
+                        collection = chararcter.collection,
+                        OwnedUnlocksCount = chararcter.OwnedUnlocksCount,
+                        role = chararcter.role
                     });
             }
+
             return upgrade;
         }
         public static ResourseValue GetResourseValue()

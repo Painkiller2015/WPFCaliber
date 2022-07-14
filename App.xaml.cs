@@ -10,6 +10,7 @@ using WPFCaliber;
 using WPFCaliber.Value;
 using System.Reflection;
 using System.Runtime.CompilerServices;
+using Newtonsoft.Json;
 
 namespace Caliber
 {
@@ -27,13 +28,14 @@ namespace Caliber
                 var resourse = LogObject.GetResourseValue();
 
                 int j = 0;
+
                 foreach (var resourseField in resourseValueFields)
                 {
-                    if (resourseField.Name == "<sc>k__BackingField")
+                    if (resourseField.Name == resourseValueFields[0].Name)
                         continue;
 
                     int resValue = (int)resourseField.GetValue(resourse);
-                    Resourse.DictNumResources.Add((ResoursesCollectionEng)j, new((ResoursesCollectionEng)j, resValue, resValue));
+                    Resourse.DictNumResources.Add((ResoursesCollectionEng)j, new((ResoursesCollectionEng)j, resValue, resValue, j));
                     string resourseName = Enum.GetName((ResoursesCollectionEng)j);
                     Resourse.DictNumResources.Last().Value.ResourseImg = new(new Uri($"pack://application:,,,/Resourses/{resourseName}.png"));
                     j++;

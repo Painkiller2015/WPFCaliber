@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Caliber.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -14,6 +15,8 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using WPFCaliber.Model;
+using static Caliber.Json.StaticObject;
 
 namespace Caliber
 {
@@ -23,13 +26,30 @@ namespace Caliber
     public partial class MainWindow : Window
     {
         private GlobalHotKeyManager hotkeyManager;
+        private PriorityMode priorityMode = PriorityMode.Auto;
         public MainWindow()
         {
             InitializeComponent();
-        }
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            hotkeyManager = new GlobalHotKeyManager();
+            ControlButton.Visibility = Visibility.Collapsed;
+
+            ModeViewModel.ModeChanged += (obj, mode) =>
+            {
+                priorityMode = mode;
+                ActualPriority.SetPriority(priorityMode);
+                ControlButton.Visibility = mode == PriorityMode.Hand ? Visibility.Visible : Visibility.Collapsed;
+            };
+            ActuallyPriorityViewModel.PriorityChanged += (obj, resourses) =>
+            {
+                PriorityResourse.ItemsSource = resourses;
+            };
+            NeededResoursesViewModel.NeededResourses += (obj, resourses) =>
+            {
+                NeededResourses.ItemsSource = resourses;
+            };
+            DifferendResourseViewModel.DifferendResourses += (obj, resourses) =>
+            {
+                DifferendResourses.ItemsSource = resourses;
+            };
         }
     }
 }

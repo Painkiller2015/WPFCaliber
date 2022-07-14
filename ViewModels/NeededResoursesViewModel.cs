@@ -1,30 +1,36 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliber;
 using DevExpress.Mvvm;
+using WPFCaliber.Value;
 
 namespace Caliber.ViewModels
 {
-    internal class NeededResoursesViewModel : BindableBase, ISingleton
+    public class NeededResoursesViewModel : BindableBase, ISingleton
     {
-        public List<int> NeededResourses { get; set; } = new();
         public NeededResoursesViewModel()
         {
-            ModeViewModel.ModeChanged += (object o, PriorityMode mode) =>
+            UpdateCollection(true);
+        }
+        public ObservableCollection<int> ObsNeededResourseCollection { get; set; }
+        public static event EventHandler<ObservableCollection<int>> NeededResourses;
+        public void UpdateCollection(bool init = false)
+        {
+            ObsNeededResourseCollection = new();
+            foreach (var resourse in Resourse.DictNumResources)
             {
-                       //TODO закидывать сюда необходимые реусурсы из отдельного класса
+                int need = resourse.Value.LimitNumber - resourse.Value.Number;
+                need = need < 0 ? 0 : need;
 
-                       /*NeededResourses.Add( 
-                           mode switch
-                       {
-                           PriorityMode.Median => Convert.ToInt32(VMLoader.Resolve<ResoursesLimitViewModel>().ResoursesLimit - ),  
-                       });*/
-            };
-
+                ObsNeededResourseCollection.Add(need);
+            }
+            if (!init)
+                NeededResourses.Invoke(this, ObsNeededResourseCollection);
         }
     }
 }
