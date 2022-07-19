@@ -7,30 +7,40 @@ using System.Linq;
 using System.Reflection;
 using System.Text;
 using System.Threading.Tasks;
+using static Caliber.Json.Character.LogObject;
 
 namespace WPFCaliber.Value
 {
-    public class PriceUpgradesClasses
+    public static class PriceUpgradesClasses
     {
-        public List<ResourseValue> Assault { get; set; } = new();
-        public List<ResourseValue> Gunner { get; set; } = new();
-        public List<ResourseValue> Medic { get; set; } = new();
-        public List<ResourseValue> Sniper { get; set; } = new();
-        private static int _MaxLvl = 15;
+        public static List<ResourseValue> Assault;
+        public static List<ResourseValue> Gunner;
+        public static List<ResourseValue> Medic;
+        public static List<ResourseValue> Sniper;
+        private static int _CharacterMaxLvl = 15;
 
-        public ResourseValue Sum(int startInd, Classes characterClass)
+        static PriceUpgradesClasses()
         {
-            PriceUpgradesClasses? upgradeList = StaticObject.GetPriceCharactersUpgrade();
+            StaticObject.GetPriceUpgradeOnClasses();
+        }
+
+        public static ResourseValue Sum(int startInd, Classes characterClass)
+        {
             ResourseValue resourseValue = new();
-
             string? characterClassName = Enum.GetName(characterClass);
-            FieldInfo? characterClassField = typeof(PriceUpgradesClasses)?.GetField(characterClassName);
 
-            for (int upgradeId = startInd; upgradeId < _MaxLvl; upgradeId++) //TODO старт индекс с 0 или 1 ??? 
+            int lockUpgades = _CharacterMaxLvl - startInd;
+
+            List<ResourseValue> value = characterClassName switch
             {
-                List<ResourseValue>? price = characterClassField?.GetValue(upgradeList) as List<ResourseValue>;
-                resourseValue = ResourseValue.Sum(resourseValue, price[upgradeId]);
-            }
+                "Assault" => Assault,
+                "Gunner" => Gunner,
+                "Medic" => Medic,
+                "Sniper" => Sniper
+            };
+
+            ResourseValue newResourseValue = ResourseValue.Sum(value.GetRange(startInd, lockUpgades));
+            resourseValue = ResourseValue.Sum(resourseValue, newResourseValue);
             return resourseValue;
         }
     }
