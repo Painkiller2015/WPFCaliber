@@ -11,16 +11,11 @@ namespace WPFCaliber.Model
 {
     public class MaxPriority : Priority
     {
-        static readonly PriceUpgradesClasses _CharactersUpgrade;
         static readonly List<CharacterUpgrade> _CharactersLevels;
-        static readonly int _CharacterMaxLvl = 14;
-
         static MaxPriority()
         {
-           _CharactersUpgrade = StaticObject.GetPriceCharactersUpgrade();
            _CharactersLevels = LogObject.GetCharactersLevels();
         }
-
         public static void SetPriority()
         {
             _limitResourseValue = GetMaxPrise();
@@ -41,15 +36,14 @@ namespace WPFCaliber.Model
             ResourseValue resultValue = new();
             foreach (var character in _CharactersLevels)
             {
-                int unlockUpgrades = character.OwnedUnlocksCount - 1;
-                int lockUpgrades = _CharacterMaxLvl - unlockUpgrades;
+                int unlockLevels = character.OwnedUnlocksCount;
 
                 ResourseValue upgradePrice = character.role switch
                 {
-                    Classes.Assault => ResourseValue.Sum(_CharactersUpgrade.Assault.GetRange(unlockUpgrades, lockUpgrades)),
-                    Classes.Gunner => ResourseValue.Sum(_CharactersUpgrade.Gunner.GetRange(unlockUpgrades, lockUpgrades)),
-                    Classes.Medic => ResourseValue.Sum(_CharactersUpgrade.Medic.GetRange(unlockUpgrades, lockUpgrades)),
-                    Classes.Sniper => ResourseValue.Sum(_CharactersUpgrade.Sniper.GetRange(unlockUpgrades, lockUpgrades))
+                    Classes.Assault => PriceUpgradesClasses.Sum(unlockLevels, Classes.Assault),
+                    Classes.Gunner => PriceUpgradesClasses.Sum(unlockLevels, Classes.Gunner),
+                    Classes.Medic => PriceUpgradesClasses.Sum(unlockLevels, Classes.Medic),
+                    Classes.Sniper => PriceUpgradesClasses.Sum(unlockLevels, Classes.Sniper)
                 };
 
                 resultValue = ResourseValue.Sum(resultValue, upgradePrice);
