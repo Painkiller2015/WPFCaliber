@@ -62,9 +62,9 @@
 
         <ComboBox Grid.Column="1" Grid.Row="0"   
                   FontSize="17"
-                  SelectedItem="eng" 
                   DataContext="{Binding Source={StaticResource VMLoader}, Path=LanguageSetterViewModel}"
                   ItemsSource="{Binding LanguageSetter}"
+                  SelectedItem = "{Binding SelectLanguage}"
                   />
         <TextBox Grid.Column="3" Grid.Row="0"
                  md:HintAssist.Hint="Лимит ресурсов"
@@ -76,6 +76,7 @@
                  />
 
         <ListBox Grid.Column="1" Grid.Row="1" 
+                 
                  DataContext="{Binding Source={StaticResource VMLoader}, Path=ImagesNumbersResoursesViewModel}"
                  ItemsSource="{Binding ObsNumbersResoursesCollection}"
                  VerticalAlignment="Bottom"

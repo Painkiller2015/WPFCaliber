@@ -7,7 +7,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WPFCaliber.Value;
 using static Caliber.Json.Character.LogObject;
-using static Caliber.Json.StaticObject.Static;
 
 namespace Caliber
 {
@@ -26,6 +25,19 @@ namespace Caliber
         static readonly Json.Accaunt.LogObject.Account _AccauntInfo = GetAccauntInfo();
         static readonly List<Character> _CharactersInfo = GetCharactesInfo();
 
+        /*        static LogObject() 
+                {
+                    using (Json.Accaunt.LogObject.Account a = GetAccauntInfo())
+                    {
+                        _AccauntInfo = a;
+                    };
+
+                    using (var b = GetCharactesInfo())
+                    {
+                        _CharactersInfo = b;
+                    };
+                }
+        */
         public static async Task<Json.Accaunt.LogObject.Technologies> GetQuarters()
         {
             var qurtest = _AccauntInfo.quarters.Technologies;
@@ -43,11 +55,13 @@ namespace Caliber
 
                 int unlockUpgradre = GetUnlockUpgrade(character.cfgId);
 
+                unlockUpgradre = unlockUpgradre > 15 ? 15 : unlockUpgradre;
+
                 upgrade.Add(
                     new CharacterUpgrade
                     {
                         collection = character.collection,
-                        OwnedUnlocksCount = character.OwnedUnlocksCount,
+                        OwnedUnlocksCount = unlockUpgradre,
                         role = character.role
                     });
             }
@@ -57,7 +71,7 @@ namespace Caliber
 
         private static int GetUnlockUpgrade(string characterName)
         {
-            Character character = (Character)_CharactersInfo.Where(el => el.cfgId == characterName).First();
+            Character character = _CharactersInfo.Where(el => el.cfgId == characterName).First();
 
             int upgradeCount = 0;
 
@@ -96,11 +110,11 @@ namespace Caliber
             var deserializedAccount = JsonConvert.DeserializeObject<Json.Accaunt.LogObject.Account>(conteinLine);
             return deserializedAccount;
         }
-        private static List<Json.Character.LogObject.Character> GetCharactesInfo()
+        private static List<Character> GetCharactesInfo()
         {
             string conteinLine = SearchRow(_CharactersInfoRow, _LogPath).Result;
             conteinLine = conteinLine.Remove(0, 73);//TODO сделать нормально
-            var deserializedCharacters = JsonConvert.DeserializeObject<List<Json.Character.LogObject.Character>>(conteinLine);
+            var deserializedCharacters = JsonConvert.DeserializeObject<List<Character>>(conteinLine);
             return deserializedCharacters;
         }
         private static async Task<string> SearchRow(string[] contains, string path)

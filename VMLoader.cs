@@ -4,6 +4,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WPFCaliber.Model;
 
 namespace Caliber
 {
@@ -44,6 +45,6 @@ namespace Caliber
         public ViewModels.LimitResoursesViewModel? LimitResoursesViewModel { get => Resolve<ViewModels.LimitResoursesViewModel>(); }
         public ViewModels.DifferendResourseViewModel? DifferendResourseViewModel { get => Resolve<ViewModels.DifferendResourseViewModel>(); }
         public ViewModels.ImagesNumbersResoursesViewModel? ImagesNumbersResoursesViewModel { get => Resolve<ViewModels.ImagesNumbersResoursesViewModel>(); }
+        public Worker Worker { get => Resolve<Worker>();} 
     }
-    
 }

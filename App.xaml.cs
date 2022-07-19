@@ -11,6 +11,7 @@ using WPFCaliber.Value;
 using System.Reflection;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
+using WPFCaliber.Model;
 
 namespace Caliber
 {
@@ -25,7 +26,7 @@ namespace Caliber
             {
                 FieldInfo[]? resourseValueFields = typeof(ResourseValue).GetFields(BindingFlags.Public | BindingFlags.NonPublic | BindingFlags.Instance);
 
-                var resourse = LogObject.GetResourseValue();
+                ResourseValue resourse = LogObject.GetResourseValue();
 
                 int j = 0;
 
@@ -41,6 +42,9 @@ namespace Caliber
                     j++;
                 }
             }
+
+           VMLoader.Resolve<Worker>();
+
             base.OnStartup(e);
         }
     }

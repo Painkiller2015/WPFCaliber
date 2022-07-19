@@ -10,6 +10,14 @@ namespace Caliber.ViewModels
 {
     public class LimitResoursesViewModel : BindableBase, ISingleton
     {
-        public string LimitResourses { get; set; }
+        public string LimitResourses { get; set; } = 50000.ToString();
+
+        public LimitResoursesViewModel()
+        {
+            foreach (var resourse in Resourse.DictNumResources)
+            {
+                resourse.Value.LimitNumber = Convert.ToInt32(LimitResourses);
+            }
+        }
     }
 }

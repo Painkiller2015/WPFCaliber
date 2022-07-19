@@ -12,16 +12,17 @@ namespace WPFCaliber.Model
 {
     public class ActualPriority : Priority
     {
-        public static void SetPriority(PriorityMode mode)
+        public static async void SetPriority(PriorityMode mode)
         {
             switch (mode)
             {
-                case PriorityMode.Hand: HandPriority.SetPriority(); break;
-                case PriorityMode.Max: MaxPriority.SetPriority(); break;
-                case PriorityMode.Auto: AutoPriority.SetPriority(); break;
-                case PriorityMode.Tehnologies: TehnologiesPriority.SetPriority(); break;
+                case PriorityMode.Hand: await HandPriority.SetPriority(); break;
+                case PriorityMode.Max: await MaxPriority.SetPriority(); break;
+                case PriorityMode.Auto: await AutoPriority.SetPriority(); break;
+                case PriorityMode.Tehnologies: await TehnologiesPriority.SetPriority(); break;
             }
             UpdateData();
+
         }
     }
 }

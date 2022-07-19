@@ -18,7 +18,7 @@ namespace Caliber.ViewModels
             UpdateCollection(true);
         }
         public ObservableCollection<int> ObsNeededResourseCollection { get; set; }
-        public static event EventHandler<ObservableCollection<int>> NeededResourses;
+        public static event EventHandler<ObservableCollection<int>> NeededResoursesEvent;
         public void UpdateCollection(bool init = false)
         {
             ObsNeededResourseCollection = new();
@@ -30,7 +30,7 @@ namespace Caliber.ViewModels
                 ObsNeededResourseCollection.Add(need);
             }
             if (!init)
-                NeededResourses.Invoke(this, ObsNeededResourseCollection);
+                NeededResoursesEvent.Invoke(this, ObsNeededResourseCollection);
         }
     }
 }

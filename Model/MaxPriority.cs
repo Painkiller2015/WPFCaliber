@@ -16,7 +16,7 @@ namespace WPFCaliber.Model
         {
            _CharactersLevels = LogObject.GetCharactersLevels();
         }
-        public static void SetPriority()
+        public static async Task SetPriority()
         {
             _limitResourseValue = GetMaxPrise();
             SetDesiredNumber();

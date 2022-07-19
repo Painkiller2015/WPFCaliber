@@ -12,7 +12,7 @@ namespace WPFCaliber.Model
 {
     public class AutoPriority : Priority
     {
-        public static void SetPriority()
+        public static async Task SetPriority()
         {
             ResourseValue resourse = LogObject.GetResourseValue();
             var resourseValueFields = typeof(ResourseValue).GetFields();

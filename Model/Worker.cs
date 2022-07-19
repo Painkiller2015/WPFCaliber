@@ -15,32 +15,71 @@ using Caliber.ViewModels;
 using Caliber;
 using System.Runtime.InteropServices;
 using AutoItX3Lib;
+using static System.Windows.Forms.VisualStyles.VisualStyleElement;
+using Page = Tesseract.Page;
+using System.Diagnostics;
 
 namespace WPFCaliber.Model
 {
-    public class Worker
+    public class Worker : ISingleton
     {
-        private readonly ILogger<Worker> _logger;
         private static GlobalHotKeyManager _hotKeyManager = new();
         private static byte[] _imageCaliber;
         private static readonly int _maxCountResourses = Resourse.DictNumResources.Count;
+        public bool StartProcess { get; set; }
+        private GlobalHotKeyManager _GHKManager = new();
+        private static CancellationTokenSource? sourse = null;
 
-        public static void StartProcessOpenCase()
+        public Worker()
         {
-            OpenCase();
-            Thread.Sleep(3500);
-            PrintScreen printScreen = new();
-            Image rectangleResourses = GetResourceRectangle(printScreen.Screen);
-            string textOnScreen = GetTextOnRectangleResourse(rectangleResourses);
+            _GHKManager.StatusProcessEvent += async (obj, status) =>
+             {
+                 StartProcess = status;
 
-            ResoursesCollectionEng[] caseContain = GetContainResourses(textOnScreen);
+                 if (StartProcess)
+                 {
+                     Debug.WriteLine("startProcess");
+                     if (sourse == null)
+                     {
+                         Debug.WriteLine("startProcess and sourse == null");
+                         sourse = new CancellationTokenSource();
+                         await Task.Run(() => StartProcessOpenCase(), sourse.Token);
+                     }
+                 }
+                 else
+                 {
+                     Debug.WriteLine("stopProcess");
+                     if (sourse != null)
+                     {
+                         Debug.WriteLine("deleteSourse");
 
-            GetResourse(caseContain);
-            OpenCase();
-            //TODO переделать на асинк
-            Thread.Sleep(500);
+                         sourse.Cancel();
+                         sourse = null;
+                     }
+                 }
+             };
         }
-        private static void OpenCase()
+
+        public async Task StartProcessOpenCase()
+        {
+            while (StartProcess)
+            {
+                OpenCase();
+                Thread.Sleep(3500);
+                Image rectangleResourses = GetResourceRectangle(new PrintScreen().Screen);
+                string textOnScreen = GetTextOnRectangleResourse(rectangleResourses);
+
+                ResoursesCollectionEng[] caseContain = GetContainResourses(textOnScreen);
+
+                GetResourse(caseContain);
+                OpenCase();
+                Thread.Sleep(500);
+
+                //TODO переделать
+                Priority.UpdateData();
+            }
+        }
+        private void OpenCase()
         {
             int y = (int)(SysConfig.GetHeightScreen() / 1.23);
             int x = (int)(SysConfig.GetWidthScreen() / 1.2);
@@ -48,7 +87,7 @@ namespace WPFCaliber.Model
             AutoItX3 openCase = new();
             openCase.MouseClick("LEFT", x, y);
         }
-        private static Image GetResourceRectangle(Image screen)
+        private Image GetResourceRectangle(Image screen)
         {
             int x1 = 200;
             int y1 = (int)(screen.Height / 3.7);
@@ -58,7 +97,7 @@ namespace WPFCaliber.Model
             Rectangle rectangle = new(x1, y1, with, height);
             Bitmap pic = (Bitmap)screen;
             Bitmap temp = pic.Clone(rectangle, PixelFormat.Format8bppIndexed);
-            //temp.Save("test.png", System.Drawing.Imaging.ImageFormat.Png);      
+            temp.Save("test.png", ImageFormat.Png);
 
             using (MemoryStream memoryStream = new())
             {
@@ -67,20 +106,27 @@ namespace WPFCaliber.Model
             }
             return pic;
         }
-        private static string GetTextOnRectangleResourse(Image screen)
+        private string GetTextOnRectangleResourse(Image screen)
         {
-            var ocrengine = new TesseractEngine(@"..\tessdata", SysConfig.GetSystemLanguage(), EngineMode.Default);
-            Pix img = Pix.LoadFromMemory(_imageCaliber);
-            Page res = ocrengine.Process(img);
-            return res.GetText();
+            string language = VMLoader.Resolve<LanguageSetterViewModel>().SelectLanguage;
+
+            string tessPath = Path.Combine(AppDomain.CurrentDomain.BaseDirectory, "tessdata");
+
+            using (TesseractEngine ocrengine = new(tessPath, language, EngineMode.Default))
+            {
+                Pix img = Pix.LoadFromMemory(_imageCaliber);
+
+                Page res = ocrengine.Process(img);
+                return res.GetText();
+            }
         }
-        private static ResoursesCollectionEng[] GetContainResourses(string inputString)
+        private ResoursesCollectionEng[] GetContainResourses(string inputString)
         {
             if (string.IsNullOrWhiteSpace(inputString)) return default;
 
             ResoursesCollectionEng[] caseContain = new ResoursesCollectionEng[5];
             int[] arrayResoursePosition = new int[5];
-            string sysLang = VMLoader.Resolve<LanguageSetterViewModel>().Language;
+            string sysLang = VMLoader.Resolve<LanguageSetterViewModel>().SelectLanguage;
 
             for (int resCell = 0, numResourses = 0; numResourses < _maxCountResourses; numResourses++)
             {
@@ -104,9 +150,9 @@ namespace WPFCaliber.Model
             Array.Sort(arrayResoursePosition, caseContain);
             return caseContain;
         }
-        private static void GetResourse(ResoursesCollectionEng[] caseContain)
+        private void GetResourse(ResoursesCollectionEng[] caseContain)
         {
-            foreach (var resourse in Resourse.DictNumResources)
+            foreach (var resourse in Resourse.DictNumResources.OrderBy(el => el.Value.Priority))
             {
                 for (int j = 0; j < caseContain.Length; j++)
                 {
@@ -119,7 +165,7 @@ namespace WPFCaliber.Model
             }
         LoopEnd:;
         }
-        private static void GetCellById(int cell)
+        private void GetCellById(int cell)
         {
             int height = (int)(SysConfig.GetHeightScreen() / 1.6);
             int width = SysConfig.GetWidthScreen();

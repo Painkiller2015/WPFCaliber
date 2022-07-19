@@ -10,7 +10,7 @@ namespace Caliber.ViewModels
 {
     public class LanguageSetterViewModel : BindableBase, ISingleton
     {
-        public string Language { get; set; }
-        public string[] LanguageSetter { get; } = { "rus", "eng" };
+        public string SelectLanguage { get; set; } = LanguageSetter[0];
+        public static string[] LanguageSetter { get; } = { "rus", "eng" };
     }
 }

@@ -67,13 +67,13 @@ namespace WPFCaliber.Model
                     Resourse.DictNumResources[res].DesiredNumber = neededResourse;
             }
         }
-        protected static void OrderPriority()
+        protected static void  OrderPriority()
         {
             int priority = 0;
             foreach (var res in Resourse.DictNumResources.OrderBy(el => el.Value.DesiredNumber))
                 res.Value.Priority = priority++;
         }
-        protected static void UpdateData()
+        public static void UpdateData()
         {
             VMLoader.Resolve<ActuallyPriorityViewModel>().UpdateCollection();
             VMLoader.Resolve<NeededResoursesViewModel>().UpdateCollection();

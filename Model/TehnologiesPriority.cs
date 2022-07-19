@@ -15,7 +15,7 @@ namespace WPFCaliber.Model
         static readonly Caliber.Json.Accaunt.LogObject.Technologies _Quarters = LogObject.GetQuarters().Result;
         static readonly int _QuartestMaxLvl = 9;
 
-        public static void SetPriority()
+        public static async Task SetPriority()
         {
             _limitResourseValue = GetPrice();
 

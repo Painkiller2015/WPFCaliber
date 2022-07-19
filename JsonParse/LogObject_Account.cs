@@ -10,7 +10,7 @@ namespace Caliber.Json.Accaunt
 {
     public static partial class LogObject
     {
-        public class Account
+        public class Account 
         {
             public int version { get; set; }
             public DateTime metaTime { get; set; }

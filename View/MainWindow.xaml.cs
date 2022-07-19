@@ -17,6 +17,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using WPFCaliber.Model;
 using static Caliber.Json.StaticObject;
+using Application = System.Windows.Application;
 
 namespace Caliber
 {
@@ -25,8 +26,8 @@ namespace Caliber
     /// </summary>
     public partial class MainWindow : Window
     {
-        private GlobalHotKeyManager hotkeyManager;
         private PriorityMode priorityMode = PriorityMode.Auto;
+        GlobalHotKeyManager GHKManager = new();
         public MainWindow()
         {
             InitializeComponent();
@@ -34,22 +35,30 @@ namespace Caliber
 
             ModeViewModel.ModeChanged += (obj, mode) =>
             {
-                priorityMode = mode;
-                ActualPriority.SetPriority(priorityMode);
-                ControlButton.Visibility = mode == PriorityMode.Hand ? Visibility.Visible : Visibility.Collapsed;
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    priorityMode = mode;
+                    ActualPriority.SetPriority(priorityMode);
+                    ControlButton.Visibility = mode == PriorityMode.Hand ? Visibility.Visible : Visibility.Collapsed;
+                });
             };
             ActuallyPriorityViewModel.PriorityChanged += (obj, resourses) =>
             {
-                PriorityResourse.ItemsSource = resourses;
+                Application.Current.Dispatcher.Invoke(() => { PriorityResourse.ItemsSource = resourses; });
             };
-            NeededResoursesViewModel.NeededResourses += (obj, resourses) =>
+            NeededResoursesViewModel.NeededResoursesEvent += (obj, resourses) =>
             {
-                NeededResourses.ItemsSource = resourses;
+                Application.Current.Dispatcher.Invoke(() => { NeededResourses.ItemsSource = resourses; });
             };
             DifferendResourseViewModel.DifferendResourses += (obj, resourses) =>
             {
-                DifferendResourses.ItemsSource = resourses;
+                Application.Current.Dispatcher.Invoke(() => { DifferendResourses.ItemsSource = resourses; });
             };
+            GHKManager.StatusProcessEvent += (obj, status) =>
+            {
+                WindowState = status == true ? WindowState.Minimized : WindowState;
+            };
+
         }
     }
 }

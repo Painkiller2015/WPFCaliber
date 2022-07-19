@@ -11,9 +11,7 @@ namespace WPFCaliber.Model
 {
     public class HandPriority : Priority
     {
-        //TODO Брать с формы выставленный юзером лист, мб выкинуть этот класс
-        public Dictionary<ResoursesCollectionEng, Resourse> ResourseCollection { get => Resourse.DictNumResources; }
-        public static void SetPriority()
+        public static async Task SetPriority()
         {
             SetDesiredNumber();
             OrderPriority();

@@ -7,6 +7,8 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using Caliber;
 using DevExpress.Mvvm;
+using System.IO;
+
 
 namespace Caliber.ViewModels
 {
@@ -14,7 +16,7 @@ namespace Caliber.ViewModels
     {
         public DifferendResourseViewModel()
         {
-            UpdateCollection(true);
+            UpdateCollection(true);    
         }
         public ObservableCollection<int> ObsDifferendResourseCollection { get; private set; }
         public static event EventHandler<ObservableCollection<int>> DifferendResourses;

@@ -16,7 +16,7 @@ namespace Caliber
         public int Tier { get; set; } = default;
         public int DiffNumber { get => Number - StartedNumber; }
         public int DesiredNumber { get; set; }
-        public int LimitNumber { get; set; } = 50000;
+        public int LimitNumber { get; set; }
         public BitmapImage? ResourseImg { get; set; }
     
         public static Dictionary<ResoursesCollectionEng, Resourse> DictNumResources { get; set; } = new();
