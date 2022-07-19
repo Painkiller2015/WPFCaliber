@@ -25,7 +25,6 @@ namespace WPFCaliber.Model
         private static byte[] _imageCaliber;
         private static readonly int _maxCountResourses = Resourse.DictNumResources.Count;
 
-        //TODO запускать StartProcessOpenCase по кнопке пуска
         public static void StartProcessOpenCase()
         {
             OpenCase();
@@ -68,7 +67,6 @@ namespace WPFCaliber.Model
             }
             return pic;
         }
-
         private static string GetTextOnRectangleResourse(Image screen)
         {
             var ocrengine = new TesseractEngine(@"..\tessdata", SysConfig.GetSystemLanguage(), EngineMode.Default);
