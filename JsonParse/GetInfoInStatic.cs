@@ -8,7 +8,6 @@ using System.Threading.Tasks;
 using Newtonsoft.Json;
 using Newtonsoft.Json.Linq;
 using WPFCaliber.Value;
-using static Caliber.Json.StaticObject;
 
 namespace Caliber
 {
@@ -47,12 +46,14 @@ namespace Caliber
             }
             return priceQuartes;
         }
-        public static PriceUpgradesClasses GetPriceCharactersUpgrade()
+        /*        public static ResourseValue GetPriceUpgrades()
+                {
+
+                }*/
+        public static void GetPriceUpgradeOnClasses()
         {
             //int[] recruitId = { 0, 1, 2, 3 };     разработчики сломали id карточек
             //int[] ww2Id = { 60, 61, 62, 63 };
-
-            PriceUpgradesClasses priceUpgrades = new();
 
             foreach (var character in _StaticObject.CharacterCards)
             {
@@ -61,43 +62,47 @@ namespace Caliber
 
                 List<ResourseValue> price = new();
 
-                foreach (var ability in character.abilities)
-                {
-                    foreach (var upgrade in ability.upgrades)
-                    {
+                foreach (var ability in character?.abilities)
+                    foreach (var upgrade in ability?.upgrades)
                         price.Add(ToResourseValue(upgrade.cost.values));
-                    }
-                }
-                foreach (var item in character.items)
-                {
-                    foreach (var upgrade in item.upgrades)
-                    {
-                        price.Add(ToResourseValue(upgrade.cost.values));
-                    }
-                }
-                foreach (var perk in character.perks)
-                {
-                    price.Add(ToResourseValue(perk.cost.values));
-                }
-                price.OrderBy(el => el.sc);
 
-                switch (character.Role)
+                foreach (var item in character?.items)
+                {
+                    if (item?.upgrades == null)
+                        continue;
+
+                    foreach (var upgrade in item?.upgrades)
+                        price.Add(ToResourseValue(upgrade.cost.values));
+                }
+                foreach (var perk in character?.perks)
+                    price.Add(ToResourseValue(perk.cost.values));
+
+                price = price.OrderBy(el => el.sc).ToList();
+
+                bool sniper = false, medic = false, gunner = false, assault = false;
+
+                switch ((Classes)character.role.Value)
                 {
                     case Classes.Assault:
-                        priceUpgrades.Assault = price;
+                        PriceUpgradesClasses.Assault = price;
+                        assault = true;
                         break;
                     case Classes.Gunner:
-                        priceUpgrades.Gunner = price;
+                        PriceUpgradesClasses.Gunner = price;
+                        gunner = true;
                         break;
                     case Classes.Medic:
-                        priceUpgrades.Medic = price;
+                        PriceUpgradesClasses.Medic = price;
+                        medic = true;
                         break;
                     case Classes.Sniper:
-                        priceUpgrades.Sniper = price;
+                        PriceUpgradesClasses.Sniper = price;
+                        sniper = true;
                         break;
                 }
+                if (sniper & medic & gunner & assault)
+                    break;
             }
-            return priceUpgrades;
         }
         private static ResourseValue ToResourseValue(dynamic resourses)
         {

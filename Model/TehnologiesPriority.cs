@@ -12,7 +12,7 @@ namespace WPFCaliber.Model
     public class TehnologiesPriority : Priority
     {
         static readonly PriceQuartesTehologies _QuartersPrise = StaticObject.GetQuartersPrise();
-        static readonly Caliber.Json.Accaunt.LogObject.Technologies _Quarters = LogObject.GetQuarters();
+        static readonly Caliber.Json.Accaunt.LogObject.Technologies _Quarters = LogObject.GetQuarters().Result;
         static readonly int _QuartestMaxLvl = 9;
 
         public static void SetPriority()

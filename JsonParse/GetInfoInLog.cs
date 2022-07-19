@@ -6,6 +6,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WPFCaliber.Value;
+using static Caliber.Json.Character.LogObject;
+using static Caliber.Json.StaticObject.Static;
 
 namespace Caliber
 {
@@ -22,35 +24,66 @@ namespace Caliber
         };
         static readonly string _LogPath = SysConfig.GetLogPath();
         static readonly Json.Accaunt.LogObject.Account _AccauntInfo = GetAccauntInfo();
-        static readonly List<Json.Character.LogObject.Character> _CharactersInfo = GetCharactesInfo();
+        static readonly List<Character> _CharactersInfo = GetCharactesInfo();
 
-        public static Json.Accaunt.LogObject.Technologies GetQuarters()
+        public static async Task<Json.Accaunt.LogObject.Technologies> GetQuarters()
         {
             var qurtest = _AccauntInfo.quarters.Technologies;
-            qurtest = AddResearchQuarter(qurtest);
+            qurtest = await AddResearchQuarter(qurtest);
             return qurtest;
         }
         public static List<CharacterUpgrade> GetCharactersLevels()
         {
-            int recruitCount = 4;
             List<CharacterUpgrade> upgrade = new();
 
-            foreach (var chararcter in _CharactersInfo)
+            foreach (var character in _CharactersInfo)
             {
-                if (chararcter.id < recruitCount)
+                if (character.collection == "RUS_RECRUIT" || character.collection == "SOV_WW2")
                     continue;
-                
+
+                int unlockUpgradre = GetUnlockUpgrade(character.cfgId);
+
                 upgrade.Add(
                     new CharacterUpgrade
                     {
-                        collection = chararcter.collection,
-                        OwnedUnlocksCount = chararcter.OwnedUnlocksCount,
-                        role = chararcter.role
+                        collection = character.collection,
+                        OwnedUnlocksCount = character.OwnedUnlocksCount,
+                        role = character.role
                     });
             }
 
             return upgrade;
         }
+
+        private static int GetUnlockUpgrade(string characterName)
+        {
+            Character character = (Character)_CharactersInfo.Where(el => el.cfgId == characterName).First();
+
+            int upgradeCount = 0;
+
+            foreach (var abilitie in character?.abilities)
+            {
+                foreach (var upgrade in abilitie.upgrades)
+                    if (upgrade.unlocked == true)
+                        upgradeCount++;
+            }
+
+            foreach (var item in character?.items)
+            {
+                if (item?.upgrades == null)
+                    continue;
+                foreach (var upgrades in item?.upgrades)
+                    if (upgrades.unlocked == true)
+                        upgradeCount++;
+            }
+
+            foreach (var perk in character?.perks)
+                if (perk?.unlocked == true)
+                    upgradeCount++;
+
+            return upgradeCount;
+        }
+
         public static ResourseValue GetResourseValue()
         {
             return _AccauntInfo.money.values;
@@ -112,7 +145,7 @@ namespace Caliber
             }
 
         }
-        private static Json.Accaunt.LogObject.Technologies AddResearchQuarter(Json.Accaunt.LogObject.Technologies technologies)
+        private static async Task<Json.Accaunt.LogObject.Technologies> AddResearchQuarter(Json.Accaunt.LogObject.Technologies technologies)
         {
             var accauntInfo = GetAccauntInfo();
             string? reserch = accauntInfo.quarters.CurrentResearch.TechnologyLine;
@@ -133,4 +166,3 @@ namespace Caliber
         }
     }
 }
-
