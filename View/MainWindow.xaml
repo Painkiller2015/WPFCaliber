@@ -10,22 +10,26 @@
         Title="Хочу плакать"
         Height="600"
         Width="800"
-        Background="Gray"
-        Icon="../cry.ico">
+        Background="Black"
+        Icon="../cry.ico"
+        Foreground="Gold">
 
     <Window.Resources>
         <Style TargetType="RadioButton">
             <Setter Property="Margin" Value="10,10,0,0" />
+
         </Style>
+
+
         <BooleanToVisibilityConverter x:Key="BoolToVisibility"/>
     </Window.Resources>
 
-    <Grid ShowGridLines="True">
+    <Grid>
 
         <Grid.RowDefinitions >
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
-            <RowDefinition></RowDefinition>
+            <RowDefinition />
         </Grid.RowDefinitions>
 
         <Grid.ColumnDefinitions>
@@ -37,6 +41,7 @@
 
         <StackPanel DataContext="{Binding Source={StaticResource VMLoader}, Path=ModeViewModel}"
                     Orientation="Horizontal"
+                    
                     Margin="4">
             <RadioButton Style="{StaticResource MaterialDesignTabRadioButtonBottom}"
                          Margin="4"
@@ -62,21 +67,24 @@
 
         <ComboBox Grid.Column="1" Grid.Row="0"   
                   FontSize="17"
+                  HorizontalContentAlignment="Center"
                   DataContext="{Binding Source={StaticResource VMLoader}, Path=LanguageSetterViewModel}"
                   ItemsSource="{Binding LanguageSetter}"
                   SelectedItem = "{Binding SelectLanguage}"
                   />
         <TextBox Grid.Column="3" Grid.Row="0"
+                 Foreground="Gold"
                  md:HintAssist.Hint="Лимит ресурсов"
                  DataContext="{Binding Source={StaticResource VMLoader}, Path=LimitResoursesViewModel}"
                  HorizontalContentAlignment="Center"
                  VerticalContentAlignment="Center"
                  FontSize="15"
+                 
                  Text="{Binding LimitResourses}"
                  />
 
         <ListBox Grid.Column="1" Grid.Row="1" 
-                 
+                 Foreground="Gold"
                  DataContext="{Binding Source={StaticResource VMLoader}, Path=ImagesNumbersResoursesViewModel}"
                  ItemsSource="{Binding ObsNumbersResoursesCollection}"
                  VerticalAlignment="Bottom"
@@ -94,6 +102,7 @@
 
         <ListView Grid.Column="2" Grid.Row="1" 
                   x:Name="DifferendResourses"
+                  Foreground="Gold"
                   DataContext="{Binding Source={StaticResource VMLoader}, Path=DifferendResourseViewModel}"
                   ItemsSource="{Binding ObsDifferendResourseCollection}"
                   VerticalAlignment="Bottom">
@@ -101,12 +110,13 @@
 
         <ListView Grid.Column="3" Grid.Row="1" 
                   x:Name="NeededResourses"
+                  Foreground="Gold"
                   DataContext="{Binding Source={StaticResource VMLoader}, Path=NeededResoursesViewModel}"
                   ItemsSource="{Binding ObsNeededResourseCollection}"
                   VerticalAlignment="Bottom">
         </ListView>
 
-        <Label Grid.Row="2"
+        <Label Grid.Row="2"  Foreground="Gold"  
             DataContext="{Binding Source={StaticResource VMLoader}, Path=ModeDescriptionViewModel}"
             Content="{Binding ModeDescription}"
         />
@@ -136,6 +146,7 @@
             </Grid>
 
             <ListView 
+                 Foreground="Gold"
                   Grid.Row="1" d:ItemsSource="{d:SampleData ItemCount=10}"
                   ItemsSource="{Binding ObsResourseCollection, UpdateSourceTrigger=PropertyChanged}"
                   SelectedItem="{Binding SelectedResourse}"

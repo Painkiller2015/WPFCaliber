@@ -12,6 +12,7 @@ using System.Reflection;
 using System.Runtime.CompilerServices;
 using Newtonsoft.Json;
 using WPFCaliber.Model;
+using Application = System.Windows.Application;
 
 namespace Caliber
 {

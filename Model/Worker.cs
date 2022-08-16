@@ -115,7 +115,6 @@ namespace WPFCaliber.Model
             using (TesseractEngine ocrengine = new(tessPath, language, EngineMode.Default))
             {
                 Pix img = Pix.LoadFromMemory(_imageCaliber);
-
                 Page res = ocrengine.Process(img);
                 return res.GetText();
             }
